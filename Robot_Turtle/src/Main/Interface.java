@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
+import javax.swing.Jpanel;
 // ---------------------------
 
 
@@ -22,12 +23,11 @@ public class Interface {
 	    f.getContentPane().add(BorderLayout.NORTH, startButton);
 	    f.getContentPane().add(BorderLayout.SOUTH, leaveButton);
 	    startButton.addActionListener(new ActionListener() {
-	        @Override
 	        public void actionPerformed(ActionEvent e) {
+	        	
 	        }
 	    });
 	    leaveButton.addActionListener(new ActionListener() {
-	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	            Interface.Fermer();
 	        }
