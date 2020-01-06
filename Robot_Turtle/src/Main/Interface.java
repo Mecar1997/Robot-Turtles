@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
-import javax.swing.Jpanel;
 // ---------------------------
 
 
@@ -29,17 +28,21 @@ public class Interface {
 	    });
 	    leaveButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            Interface.Fermer();
+	            Interface.Close();
 	        }
 	    });
 
 	}
-	public static void Afficher() {
+	public static void Open() {
 	    f.setVisible(true);	
 	}
 
-	public static void Fermer() {
+	public static void Close() {
 	    f.setVisible(false);	
+	}
+	
+	public static void Refresh() {
+		
 	}
 	
 }
