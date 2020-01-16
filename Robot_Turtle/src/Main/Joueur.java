@@ -5,10 +5,12 @@ import java.util.Scanner;
 public class Joueur {
 	String nom;
 	int[] position;
+	int[] startPosition;
 	int numero;
 	int couleur;
 	int direction; //0 = nord, 1 = Ouest, 2 = Sud, 3 = Est
-	Carte[] listeCartes;
+	Carte[] program; // Cartes que le joueur a joué
+	Carte[] hand; // Cartes que possède le joueur
 	
 	public Joueur() {
         Scanner sc = new Scanner(System.in);
@@ -63,9 +65,20 @@ public class Joueur {
 		}
 	}	
 	
-
-	public void executeCommands() {
-		
+	public void returnStart() {
+		position = startPosition;
+	}
+	public void runCard() {
+		Carte currentCard = program[0];
+		if (currentCard.type == 0) {
+			forward();
+		} else if (currentCard.type == 1) {
+			turnLeft();
+		} else if (currentCard.type == 2) {
+			turnRight();
+		} else {
+			// ajouter des conditions pour que la tortue ne fasse fondre qu'un mur de glace en façe d'elle
+		}
 	}
 
 }

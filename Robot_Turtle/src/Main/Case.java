@@ -1,7 +1,7 @@
 package Main;
 
 public class Case {
-	int[] type; // 0 = case vide, 1 = mur, 2 = joyau
+	int[] type; // 0 = case vide, 1 = mur, 2 = joyau, 3 = tortue
 				// Pour les murs, 0 = mur de pierre, 1 = mur de glace, 2 = caisse
 				// Pour les joyaux, 0 = joyau bleu, 1 = joyau rouge, 2 = joyau vert, 3 = joyau rose
 	
@@ -25,7 +25,7 @@ public class Case {
 			} else {
 				return ("Caisse");
 			}
-		} else {
+		} else if (this.type[0] == 2) {
 			if (this.type[1] == 0) {
 				return ("Joyau Bleu");
 			} else if (this.type[1] == 1) {
@@ -35,6 +35,8 @@ public class Case {
 			} else {
 				return ("Joyau Rose");
 			}
+		} else {
+			return ("Tortue");
 		}
 	}
 
