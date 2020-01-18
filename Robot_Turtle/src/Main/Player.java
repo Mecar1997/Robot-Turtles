@@ -11,6 +11,8 @@ public class Player {
 	Card[] program; // Cartes que le joueur a joué
 	public ArrayDeque<Card> hand = new ArrayDeque<>(); //file contenant la main du joueur
 	public ArrayDeque<Card> deck = new ArrayDeque<>(); //file contenant le deck du joueur
+	int wallStone = 3; // nombre de murs de pierre à la disposition du joueur
+	int wallIce = 2; // nombre de murs de glace à la disposition du joueur
 	
 	public Player(int c) {
         this.color = c;
@@ -120,8 +122,13 @@ public class Player {
 		}
 	}
 
-	public void ditchHand(int a) {
-
+	public void discardHand() {
+		System.out.println("DEBUG: Début défaussage. Nombre de cartes dans la main du joueur " + this.getName() + ": " + this.hand.size());
+		while (hand.size() > 0) {
+			hand.pop();
+		}
+		System.out.println("DEBUG: Début défaussage. Nombre de cartes dans la main du joueur " + this.getName() + ": " + this.hand.size());
+		drawCard();
 	}
 	
 	public void shuffleDeck() {
@@ -218,8 +225,14 @@ public class Player {
 	        System.out.print(((Card) l[i]).toStringDebug());
 		}
         System.out.println("");
-        
-        
-        
 	}
+	
+	public void removeWall(int a) {
+		if (a == 1) {
+			this.wallStone--;
+		} else {
+			this.wallIce--;
+		}
+	}
+	
 }
