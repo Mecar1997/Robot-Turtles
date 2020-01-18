@@ -1,6 +1,7 @@
 package Main;
 
 import java.util.Random;
+import java.util.Scanner;
 import java.util.ArrayDeque;
 
 public class Player {
@@ -238,5 +239,37 @@ public class Player {
 			this.wallIce--;
 		}
 	}
-	
+		public void playerChoice(){
+			
+			ArrayDeque<String> creationFile =  new ArrayDeque<String>();
+			Scanner scan = new Scanner( System.in );
+					
+			while (creationFile.size() <5) {
+				
+				System.out.println("Veuillez rentrer la direction (A pour avancer,G pour un quart de tours a gauche,D pour un quart de tours a droite");
+
+				if (scan.nextLine().equals("A")) {
+						creationFile.add("A"); 
+
+				}
+				
+				if (scan.nextLine().equals("G")) {
+						creationFile.add("G"); 
+
+				}
+				
+				if (scan.nextLine().equals("D")) {
+						creationFile.add("D");
+
+				}
+				
+				else {
+						System.out.println("Rentrez un char valable.");
+						continue;
+					}
+			}
+			System.out.println(creationFile);
+
+		
+	}
 }
