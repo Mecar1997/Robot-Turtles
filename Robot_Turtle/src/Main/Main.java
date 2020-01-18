@@ -31,7 +31,7 @@ public class Main {
 		numberPlayers = p;
 		System.out.println("Il y a " + numberPlayers + " joueurs");
 		board.Initialisation(); //reset du plateau
-		// shufflePlayers(); // Ne marche pas actuellement
+		// shufflePlayers(); // TODO: Ne marche pas actuellement
 		for (int j = 0; j < p; j++) {
 			addPlayer(j);
 		}
