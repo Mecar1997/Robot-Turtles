@@ -23,4 +23,17 @@ public class Card {
 			return ("Carte Laser");
 		}
 	}
+	
+	
+	public String toStringDebug() {
+		if (this.type == 0) {
+			return ("B");
+		} else if (this.type == 1) {
+			return ("J");
+		} else if (this.type == 2) {
+			return ("V");
+		}  else{
+			return ("L");
+		}
+	}
 }
