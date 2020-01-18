@@ -159,6 +159,7 @@ public class Main {
 		c = scanner.nextInt();
 		} while (c < 0 || c > 7);
 		System.out.println("");
+		// TODO:  Empêcher un joueur de bloquer une tortue ou un joyau
 		if (board.grid[b][c].getType() == 0) {
 			board.grid[b][c].setType(a);
 			currentPlayer.removeWall(a);
