@@ -1,7 +1,6 @@
 package Main;
 
-
-public class Carte {
+public class Card {
 	int type; //0 = bleu, 1 = jaune, 2 = violette, 3 = laser
 	
 	

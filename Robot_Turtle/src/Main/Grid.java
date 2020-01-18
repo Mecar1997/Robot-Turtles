@@ -1,9 +1,14 @@
 package Main;
 
-public class Case {
+public class Grid {
 	int[] type; // 0 = case vide, 1 = mur, 2 = joyau, 3 = tortue
 				// Pour les murs, 0 = mur de pierre, 1 = mur de glace, 2 = caisse
 				// Pour les joyaux, 0 = joyau bleu, 1 = joyau rouge, 2 = joyau vert, 3 = joyau rose
+	
+	
+	public Grid() {
+		
+	}
 	
 	public int[] getType() {
 		return type;
