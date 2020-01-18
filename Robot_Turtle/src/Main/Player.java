@@ -58,17 +58,17 @@ public class Player {
 		startPosition[1] = b;
 		position[0] = a;
 		position[1] = b;
-		Main.board.grid[position[0]][position[1]].setType(8);
-		Main.board.grid[position[0]][position[1]].setPlayer(color);
+		Main.board.tile[position[0]][position[1]].setType(8);
+		Main.board.tile[position[0]][position[1]].setPlayer(color);
 	}
 	
 	public void setPosition(int a, int b) {
-		Main.board.grid[position[0]][position[1]].setType(0);
-		Main.board.grid[position[0]][position[1]].removePlayer();
+		Main.board.tile[position[0]][position[1]].setType(0);
+		Main.board.tile[position[0]][position[1]].removePlayer();
 		position[0] = a;
 		position[1] = b;
-		Main.board.grid[position[0]][position[1]].setType(8);
-		Main.board.grid[position[0]][position[1]].setPlayer(color);
+		Main.board.tile[position[0]][position[1]].setType(8);
+		Main.board.tile[position[0]][position[1]].setPlayer(color);
 	}
 	
 	public void turnLeft() {
@@ -90,19 +90,19 @@ public class Player {
 	public void forward() {
 		if (direction == 0) {
 			if (position[0] != 0) { // empêche la tortue d'avancer hors du plateau
-				position[0] = position[0] - 1;
+				setPosition(position[0]-1,position[1]);
 			}
 		} else if (direction == 1) {
 			if (position[1] != 0) { // empêche la tortue d'avancer hors du plateau
-				position[1] = position[1] - 1;
+				setPosition(position[0],position[1]-1);
 			}			
 		} else if (direction == 2) {
 			if (position[0] != 7) { // empêche la tortue d'avancer hors du plateau
-				position[0] = position[0] + 1;
+				setPosition(position[0]+1,position[1]);
 			}	
 		} else if (direction == 3) {
 			if (position[1] != 7) { // empêche la tortue d'avancer hors du plateau
-				position[1] = position[1] + 1;
+				setPosition(position[0],position[1]+1);
 			}
 		}
 		// TODO: Empêcher la tortue d'avancer s'il y'a un obstacle

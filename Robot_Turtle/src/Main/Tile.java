@@ -1,13 +1,13 @@
 package Main;
 
-public class Grid {
-	int type = 0; // 0 = case vide
+public class Tile {
+	int type = 0; // 0 = tuile vide
 				// 1 = mur de pierre, 2 = mur de glace, 3 = caisse
 				// 4 = joyau bleu, 5 = joyau rouge, 6 = joyau vert, 7 = joyau rose
 				// 8 = Tortue
 	Player associatedPlayer;
 	
-	public Grid() {
+	public Tile() {
 		
 	}
 	
@@ -29,9 +29,9 @@ public class Grid {
 	}
 	
 	
-	public String toString() { // retourne le nom de le case en fonction de son type
+	public String toString() { // retourne le nom de la tuile en fonction de son type
 		if (this.type == 0) {
-			return ("Case Vide");
+			return ("Tuile Vide");
 		} else if (this.type == 1) {
 			return ("Mur de pierre");
 		} else if (this.type == 2) {
