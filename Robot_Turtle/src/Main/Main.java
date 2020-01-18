@@ -17,25 +17,20 @@ public class Main {
 	public static Player lastPlayer; //Joueur qui vient de finir son tour
 	
 	public static void main(String[] args) {
-		//Interface.StartMenu(); //Initialisation Menu
-		//Interface.Open(); //ouverture interface graphique
-		
-		Scanner scanner = new Scanner(System.in);
-		
-		System.out.println("Entrez le nombre de joueurs");
-		int a = scanner.nextInt();
-		newGame(a);
+		Interface.StartMenu(); //Initialisation Menu
+		Interface.Open(); //ouverture interface graphique
 	}
 	
 	public static void newGame(int p) { //nouvelle partie
 		numberPlayers = p;
 		System.out.println("Il y a " + numberPlayers + " joueurs");
 		board.Initialisation(); //reset du plateau
-		// shufflePlayers(); // TODO: Ne marche pas actuellement
+		Interface.Close();
+		shufflePlayers();
+		setStartPositions();
 		for (int j = 0; j < p; j++) {
 			addPlayer(j);
 		}
-		setStartPositions();
 		board.show();
 		listPlayers(); // DEBUG 
 		nextTurn();
@@ -49,15 +44,7 @@ public class Main {
 	}
 	
 	public static void shufflePlayers() {
-		System.out.println("DEBUG: Mélange des joueurs");
-		List<Player> ShuffleList = new ArrayList<>();
-		for (int i = 1; i < playersList.length; i++) {
-			ShuffleList.add(playersList[i]);
-		}
-		Collections.shuffle(ShuffleList);
-		for (int i = 1; i < ShuffleList.size(); i++) {
-			playersList[i]=ShuffleList.remove(i);
-		}
+		 // TODO: Les joueurs sont mélangés au hasard
 	}
 	
 	public static void listPlayers() {
@@ -168,5 +155,10 @@ public class Main {
 			System.out.println("ERREUR: L'emplacement indiqué n'est pas vide");
 		}
 		endTurn();
+	}
+	
+	
+	public static void endGame() {
+		//TODO:  Le jeu prend fin lorsqu’il ne reste plus qu’un joueur
 	}
 }

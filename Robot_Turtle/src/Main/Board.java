@@ -21,14 +21,12 @@ public class Board {
             }
 		}
         if (Main.numberPlayers == 4) {
-    		System.out.println("DEBUG: Quatre joueurs détectés");
 			int i = rand.nextInt(3);
 			grid[7][1].setType(4+i);
 			i = rand.nextInt(3);
 			grid[7][6].setType(4+i);
         } else {
         	if (Main.numberPlayers == 3) {
-        		System.out.println("DEBUG: Trois joueurs détectés");
     			int i = rand.nextInt(3);
     			grid[7][0].setType(4+i);
     			i = rand.nextInt(3);
@@ -36,7 +34,6 @@ public class Board {
     			i = rand.nextInt(3);
     			grid[7][6].setType(4+i);
         	} else {
-        		System.out.println("DEBUG: Deux joueurs détectés");
     			int i = rand.nextInt(3);
     			grid[7][3].setType(4+i);
         	}

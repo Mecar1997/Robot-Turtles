@@ -2,8 +2,8 @@ package Main;
 
 public class Grid {
 	int type = 0; // 0 = case vide
-				// Pour les murs, 1 = mur de pierre, 2 = mur de glace, 3 = caisse
-				// Pour les joyaux, 4 = joyau bleu, 5 = joyau rouge, 6 = joyau vert, 7 = joyau rose
+				// 1 = mur de pierre, 2 = mur de glace, 3 = caisse
+				// 4 = joyau bleu, 5 = joyau rouge, 6 = joyau vert, 7 = joyau rose
 				// 8 = Tortue
 	Player associatedPlayer;
 	
