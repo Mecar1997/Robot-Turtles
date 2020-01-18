@@ -84,7 +84,6 @@ public class Main {
 	}
 	
 	public static void nextTurn() {
-
 		if (lastPlayer == null) { //premier tour
 			lastPlayer = new Player(0);
 		} else {
@@ -96,28 +95,78 @@ public class Main {
 	}
 	
 	
+	public static void endTurn() {
+		int a =0;
+		Scanner scanner = new Scanner(System.in);
+		do {System.out.println(currentPlayer.getName() + ", votre tour est fini.\r\n" + 
+				"Tapez 1 pour défausser votre main.\r\n" + 
+				"Tapez 2 pour terminer\r\n");
+			a = scanner.nextInt();
+		} while (a < 1 || a > 2);
+		if (a == 1) {
+			currentPlayer.discardHand();
+			nextTurn();
+		} else {
+			nextTurn();
+		}
+	}
+	
+	
 	public static void commandChoice() {
 		int a = 0;
 		Scanner scanner = new Scanner(System.in);
 		do {System.out.println("DEBUG: Tour du joueur " + currentPlayer.getName() + ". Prochain joueur: " + turns.getFirst().getName() + "\r\n" + 
 				"Tapez 1 pour passer votre tour.\r\n" + 
 				"Tapez 2 pour afficher votre main\r\n" + 
-				"Tapez 3 pour \r\n" +
-				"Tapez 4 pour \r\n" + 
-				"Tapez 5 pour \r\n" + 
+				"Tapez 3 pour placer un mur\r\n" +
+				"Tapez 4 pour afficher votre programme actuel\r\n" + 
+				"Tapez 5 pour compléter votre programme\r\n" + 
 				"Tapez 6 pour afficher le plateau.\r\n");
 			a = scanner.nextInt();
 		} while (a < 1 || a > 6);
 		if (a == 1) {
-			nextTurn();
+			endTurn();
 		} else if (a == 2) {
 			currentPlayer.showHand();
 			commandChoice();
+		} else if (a == 3) {
+			wallChoice();
 		} else if (a == 6) {
 			board.show();
 			commandChoice();
 		} else {
 			commandChoice();
 		}
+	}
+	
+	public static void wallChoice() {
+		int a = 0; int b = 0; int c = 0;
+		Scanner scanner = new Scanner(System.in);
+		do {System.out.println("DEBUG: Joueur " + currentPlayer.getName() + " possède " + currentPlayer.wallStone + " mur(s) de pierre et " + currentPlayer.wallIce + " mur(s) de glace \r\n" + 
+				"Tapez 1 pour placer un mur de pierre.\r\n" + 
+				"Tapez 2 pour placer un mur de glace\r\n");
+			a = scanner.nextInt();
+		} while (a < 1 || a > 2);
+		if (a == 1) {
+			System.out.println("Entrez les coordonnées pour placer le mur de pierre");
+		} else {
+			System.out.println("Entrez les coordonnées pour placer le mur de glace");
+		}
+		do {System.out.print("X: ");
+		b = scanner.nextInt();
+		} while (b < 0 || b > 7);
+		do {System.out.print("Y: ");
+		c = scanner.nextInt();
+		} while (c < 0 || c > 7);
+		System.out.println("");
+		if (board.grid[b][c].getType() == 0) {
+			board.grid[b][c].setType(a);
+			currentPlayer.removeWall(a);
+			System.out.println("Le mur a été placé");
+		} else {
+			System.out.println("ERREUR: L'emplacement indiqué n'est pas vide");
+		}
+
+		endTurn();
 	}
 }
