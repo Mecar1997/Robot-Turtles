@@ -16,7 +16,6 @@ public class Board {
 		System.out.println("DEBUG: Initialisation");
 		for (int L = 0; L < this.size; L++) {
             for (int C = 0; C < this.size; C++) {
-        		System.out.println("DEBUG: C = " + C + ", L = " + L);
         		grid[L][C] = new Grid();
             	grid[L][C].setType(0); // on vide toutes les cases
             }
@@ -53,23 +52,27 @@ public class Board {
 		for (int L = 0; L < this.size; L++) {
 			System.out.print("|");
             for (int C = 0; C < this.size; C++) {
-        		if (grid[L][C].getType() == 0) {
-        			System.out.print(".");
-        		}else if (grid[L][C].getType() == 1) {
-        			System.out.print("S");
-        		}else if (grid[L][C].getType() == 2) {
-        			System.out.print("I");
-        		}else if (grid[L][C].getType() == 3) {
-        			System.out.print("C");
-        		}else if (grid[L][C].getType() == 4) {
-        			System.out.print("B");
-        		}else if (grid[L][C].getType() == 5) {
-        			System.out.print("R");
-        		}else if (grid[L][C].getType() == 6) {
-        			System.out.print("V");
-        		}else if (grid[L][C].getType() == 7) {
-        			System.out.print("P");
-        		}
+            	if (grid[L][C].associatedPlayer != null) {
+        			System.out.print(grid[L][C].associatedPlayer.color);
+            	} else {
+            		if (grid[L][C].getType() == 0) {
+            			System.out.print(".");
+            		}else if (grid[L][C].getType() == 1) {
+            			System.out.print("S");
+            		}else if (grid[L][C].getType() == 2) {
+            			System.out.print("I");
+            		}else if (grid[L][C].getType() == 3) {
+            			System.out.print("C");
+            		}else if (grid[L][C].getType() == 4) {
+            			System.out.print("B");
+            		}else if (grid[L][C].getType() == 5) {
+            			System.out.print("R");
+            		}else if (grid[L][C].getType() == 6) {
+            			System.out.print("V");
+            		}else if (grid[L][C].getType() == 7) {
+            			System.out.print("P");
+            		}
+            	}
             }
 			System.out.println("|");
 		}
