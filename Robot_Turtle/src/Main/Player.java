@@ -9,9 +9,10 @@ public class Player {
 	int[] startPosition = {0,0};
 	int color; // 0 = bleu, 1 = rouge, 2 = green, 3 = purple
 	int direction = 2; //0 = nord, 1 = Ouest, 2 = Sud, 3 = Est
-	Card[] program; // Cartes que le joueur a joué
+	int points; // points accumulés par le joueur
 	public ArrayDeque<Card> hand = new ArrayDeque<>(); //file contenant la main du joueur
 	public ArrayDeque<Card> deck = new ArrayDeque<>(); //file contenant le deck du joueur
+	public ArrayDeque<Card> program = new ArrayDeque<>(); //file contenant le programme du joueur
 	int wallStone = 3; // nombre de murs de pierre à la disposition du joueur
 	int wallIce = 2; // nombre de murs de glace à la disposition du joueur
 	
@@ -115,15 +116,15 @@ public class Player {
 		position = startPosition;
 	}
 	public void runCard() { //TODO: Fonction non implémentée
-		Card currentCard = program[0];
+		Card currentCard = program.pop();
 		if (currentCard.type == 0) {
 			forward();
 		} else if (currentCard.type == 1) {
 			turnLeft();
 		} else if (currentCard.type == 2) {
 			turnRight();
-		} else {
-			// TODO: ajouter des conditions pour que la tortue ne fasse fondre qu'un mur de glace en façe d'elle
+		} else if (currentCard.type == 3) {
+			// TODO: Implémentation de la carte Laser
 		}
 	}
 
