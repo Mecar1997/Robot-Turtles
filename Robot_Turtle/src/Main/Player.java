@@ -65,7 +65,6 @@ public class Player {
 		position[0] = a;
 		position[1] = b;
 		Main.board.grid[position[0]][position[1]].setType(8);
-		System.out.println("BIG DEBUG ++ " + color);
 		Main.board.grid[position[0]][position[1]].setPlayer(color);
 	}
 	
