@@ -167,7 +167,6 @@ public class Main {
 		} else {
 			System.out.println("ERREUR: L'emplacement indiqué n'est pas vide");
 		}
-
 		endTurn();
 	}
 }

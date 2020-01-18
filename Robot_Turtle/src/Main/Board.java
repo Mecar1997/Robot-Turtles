@@ -47,6 +47,27 @@ public class Board {
     		System.out.println("DEBUG: Murs de pierres ajoutés");
         }
 	}
+	
+	
+	
+	public int openTiles(int x, int y) {
+		int o = 0;
+		for (int i = x-1; i < x+2; i++) {
+			if ((i >= 0) & (i <= 7)) {
+	    		System.out.println("DEBUG: i == " + i);	
+				for (int j = y-1; j < y+2; j++) {
+		    		System.out.println("DEBUG: j == " + i);	
+					if ((j >= 0) & (j <= 7)) {
+						if (grid[i][j].getType()==0) {
+							o++;
+						}
+					}
+				}
+			}
+		}
+		return o;
+	}
+	
 	public void show() {
 		System.out.println("|12345678|");
 		for (int L = 0; L < this.size; L++) {

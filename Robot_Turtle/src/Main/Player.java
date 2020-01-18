@@ -104,12 +104,16 @@ public class Player {
 				position[1] = position[1] + 1;
 			}
 		}
+		// TODO: Empêcher la tortue d'avancer s'il y'a un obstacle
+		// TODO: Permettre à une tortue de pousser une caisse en bois ?
+		// TODO : Implémentation de la colision de deux tortues
+		// TODO: Implémentation du déplacement sur une case Joyau
 	}	
 	
 	public void returnStart() {
 		position = startPosition;
 	}
-	public void runCard() {
+	public void runCard() { //TODO: Fonction non implémentée
 		Card currentCard = program[0];
 		if (currentCard.type == 0) {
 			forward();
@@ -118,7 +122,7 @@ public class Player {
 		} else if (currentCard.type == 2) {
 			turnRight();
 		} else {
-			// ajouter des conditions pour que la tortue ne fasse fondre qu'un mur de glace en façe d'elle
+			// TODO: ajouter des conditions pour que la tortue ne fasse fondre qu'un mur de glace en façe d'elle
 		}
 	}
 
