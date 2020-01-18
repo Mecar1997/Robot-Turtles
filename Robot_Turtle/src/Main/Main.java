@@ -1,59 +1,48 @@
 package Main;
 
 import java.util.Random;
+import java.util.Scanner;
+
 
 public class Main {
-	public static int nombreJoueurs;
-	public static Player[] listeJoueurs; //liste contenant tous les joueurs présents dans le jeu
-	public static Card[] deck; //Toutes les cartes du jeu
+	public static int numberPlayers;
+	public static Player[] playersList = new Player[4]; //liste contenant tous les joueurs présents dans le jeu
 	public static Player[] tours; //file contenant les joueurs du jeu
 	
 	public static void main(String[] args) {
-		Interface.StartMenu(); //Initialisation Menu
-		Interface.Open(); //ouverture interface graphique
+		//Interface.StartMenu(); //Initialisation Menu
+		//Interface.Open(); //ouverture interface graphique
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Entrez le nombre de joueurs");
+		int a = scanner.nextInt();
+		newGame(a);
 	}
 	
 	public static void newGame(int p) { //nouvelle partie
+		numberPlayers = p;
+		System.out.println("Il y a " + numberPlayers + " joueurs");
 		Board board = new Board(); 
 		board.Initialisation(); //reset du plateau
-		shufflePlayers();
-		shuffleDeck();
+		for (int j = 0; j < p; j++) {
+			addPlayer(j);
+		}
+		setStartPositions();
+		board.show();
 	}
-
 	
-	public static void shuffleDeck() {
-        for (int i = 0; i < 37; i++) {
-        	deck[i].setType(0);
-        }
-        Random rand = new Random();
-		int a = 3; //nombre total de cartes lasers dans le jeu
-		do {
-			int i = rand.nextInt(36);
-			if (deck[i].getType() == 0) {
-	        	deck[i].setType(3);
-	        	a = a - 1;
-			}
-		} while (a != 0);
-		a = 8; // nombre total de cartes violettes
-		do {
-			int i = rand.nextInt(36);
-			if (deck[i].getType() == 0) {
-	        	deck[i].setType(2);
-	        	a = a - 1;
-			}
-		} while (a != 0);
-		a = 8; // nombre total de cartes jaunes
-		do {
-			int i = rand.nextInt(36);
-			if (deck[i].getType() == 0) {
-	        	deck[i].setType(1);
-	        	a = a - 1;
-			}
-		} while (a != 0);
+	public static void addPlayer(int k) {
+		playersList[k] = new Player(k);
+		System.out.println("DEBUG: Joueur " + k + " ajouté. Son nom est " + playersList[k].getName());
+		playersList[k].shuffleDeck();
+	}
+	
+	public static void setStartPositions() {
+		if (numberPlayers == 4) {
+			playersList[0].setStartPosition(0,7);	
+		}
 	}
 	
 	
-	public static void shufflePlayers() {
-		
-	}
 }
