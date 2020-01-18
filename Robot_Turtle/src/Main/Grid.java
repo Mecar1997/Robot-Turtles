@@ -28,7 +28,7 @@ public class Grid {
 		associatedPlayer = null;
 	}
 	
-	public String toString() { // retourner le nom de le case en fonction de son type
+	public String toString() { // retourne le nom de le case en fonction de son type
 		if (this.type == 0) {
 			return ("Case Vide");
 		} else if (this.type == 1) {
