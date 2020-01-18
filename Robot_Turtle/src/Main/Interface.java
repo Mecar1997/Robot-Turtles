@@ -1,6 +1,6 @@
 package Main;
 
-// Librairies Graphique
+// Librairies Graphiques
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -31,10 +31,8 @@ public class Interface extends JFrame {
         JLabel info = new JLabel("Bienvenue dans robot Turtle. Sélectionnez le nombre de joueurs");
         info.setPreferredSize(new Dimension(5000, 100));
 
-        // change de look
-
         JPanel menuPanel = (JPanel) f.getContentPane();
-        //aligne les Ã©lements de la fenÃªtre
+        //aligne les éléments de la fenêtre
         menuPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
        	menuPanel.add(info);
