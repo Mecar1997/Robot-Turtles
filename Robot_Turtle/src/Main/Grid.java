@@ -5,7 +5,7 @@ public class Grid {
 				// Pour les murs, 1 = mur de pierre, 2 = mur de glace, 3 = caisse
 				// Pour les joyaux, 4 = joyau bleu, 5 = joyau rouge, 6 = joyau vert, 7 = joyau rose
 				// 8 = Tortue
-	
+	Player associatedPlayer;
 	
 	public Grid() {
 		
@@ -17,6 +17,15 @@ public class Grid {
 	
 	public void setType(int a) {
 		type = a;
+	}
+	
+	
+	public void setPlayer(int a) {
+		associatedPlayer = Main.playersList[a];
+	}
+	
+	public void removePlayer() {
+		associatedPlayer = null;
 	}
 	
 	public String toString() { // retourner le nom de le case en fonction de son type
