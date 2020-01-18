@@ -72,6 +72,11 @@ public class Interface extends JFrame {
 
 	}
 	
+    
+    public static void startBoard() {
+    	
+    }
+    
 	
 	public static void Open() {
 	    f.setVisible(true);	
