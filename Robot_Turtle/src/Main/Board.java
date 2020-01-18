@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Board {
 	int size = 8;
-	Grid[][] grid = new Grid[8][8];
+	Tile[][] tile = new Tile[8][8];
 	
 	
 	public Board() {
@@ -16,30 +16,30 @@ public class Board {
 		System.out.println("DEBUG: Initialisation");
 		for (int L = 0; L < this.size; L++) {
             for (int C = 0; C < this.size; C++) {
-        		grid[L][C] = new Grid();
-            	grid[L][C].setType(0); // on vide toutes les cases
+        		tile[L][C] = new Tile();
+        		tile[L][C].setType(0); // on vide toutes les cases
             }
 		}
         if (Main.numberPlayers == 4) {
 			int i = rand.nextInt(3);
-			grid[7][1].setType(4+i);
+			tile[7][1].setType(4+i);
 			i = rand.nextInt(3);
-			grid[7][6].setType(4+i);
+			tile[7][6].setType(4+i);
         } else {
         	if (Main.numberPlayers == 3) {
     			int i = rand.nextInt(3);
-    			grid[7][0].setType(4+i);
+    			tile[7][0].setType(4+i);
     			i = rand.nextInt(3);
-    			grid[7][3].setType(4+i);
+    			tile[7][3].setType(4+i);
     			i = rand.nextInt(3);
-    			grid[7][6].setType(4+i);
+    			tile[7][6].setType(4+i);
         	} else {
     			int i = rand.nextInt(3);
-    			grid[7][3].setType(4+i);
+    			tile[7][3].setType(4+i);
         	}
         	
             for (int L = 0; L < this.size; L++) {
-            	grid[L][size-1].setType(1); //on ajoute des murs de pierre si le nombre de joueurs est inférieur à 4
+            	tile[L][size-1].setType(1); //on ajoute des murs de pierre si le nombre de joueurs est inférieur à 4
             }
     		System.out.println("DEBUG: Murs de pierres ajoutés");
         }
@@ -55,7 +55,7 @@ public class Board {
 				for (int j = y-1; j < y+2; j++) {
 		    		System.out.println("DEBUG: j == " + i);	
 					if ((j >= 0) & (j <= 7)) {
-						if (grid[i][j].getType()==0) {
+						if (tile[i][j].getType()==0) {
 							o++;
 						}
 					}
@@ -70,24 +70,24 @@ public class Board {
 		for (int L = 0; L < this.size; L++) {
 			System.out.print("|");
             for (int C = 0; C < this.size; C++) {
-            	if (grid[L][C].associatedPlayer != null) {
-        			System.out.print(grid[L][C].associatedPlayer.color);
+            	if (tile[L][C].associatedPlayer != null) {
+        			System.out.print(tile[L][C].associatedPlayer.color);
             	} else {
-            		if (grid[L][C].getType() == 0) {
+            		if (tile[L][C].getType() == 0) {
             			System.out.print(".");
-            		}else if (grid[L][C].getType() == 1) {
+            		}else if (tile[L][C].getType() == 1) {
             			System.out.print("S");
-            		}else if (grid[L][C].getType() == 2) {
+            		}else if (tile[L][C].getType() == 2) {
             			System.out.print("I");
-            		}else if (grid[L][C].getType() == 3) {
+            		}else if (tile[L][C].getType() == 3) {
             			System.out.print("C");
-            		}else if (grid[L][C].getType() == 4) {
+            		}else if (tile[L][C].getType() == 4) {
             			System.out.print("B");
-            		}else if (grid[L][C].getType() == 5) {
+            		}else if (tile[L][C].getType() == 5) {
             			System.out.print("R");
-            		}else if (grid[L][C].getType() == 6) {
+            		}else if (tile[L][C].getType() == 6) {
             			System.out.print("V");
-            		}else if (grid[L][C].getType() == 7) {
+            		}else if (tile[L][C].getType() == 7) {
             			System.out.print("P");
             		}
             	}
