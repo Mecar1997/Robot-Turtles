@@ -116,11 +116,11 @@ public class Main {
 		int a = 0;
 		Scanner scanner = new Scanner(System.in);
 		do {System.out.println("DEBUG: Tour du joueur " + currentPlayer.getName() + ". Prochain joueur: " + turns.getFirst().getName() + "\r\n" + 
-				"Tapez 1 pour passer votre tour.\r\n" + 
+				"Tapez 1 pour passer votre tour.\r\n" +  //TODO: A enlever
 				"Tapez 2 pour afficher votre main\r\n" + 
 				"Tapez 3 pour placer un mur\r\n" +
-				"Tapez 4 pour afficher votre programme actuel\r\n" + 
-				"Tapez 5 pour compléter votre programme\r\n" + 
+				"Tapez 4 pour afficher votre programme actuel\r\n" +  //TODO
+				"Tapez 5 pour compléter votre programme\r\n" + //TODO
 				"Tapez 6 pour afficher le plateau.\r\n");
 			a = scanner.nextInt();
 		} while (a < 1 || a > 6);
