@@ -21,8 +21,10 @@ public class Main {
 	public static Player currentPlayer = new Player(0); // Joueur qui passe son tour actuellement
 	public static Player lastPlayer; //Joueur qui vient de finir son tour
 	public static GameInterface HUD;
-	public static Menu startMenu
-	;
+	public static Menu startMenu;
+	public static int session; //nombre de sessions réalisées
+	
+	
 	public static void main(String[] args) {
 		startMenu = new Menu();
 		startMenu.initialisation(); //Initialisation Menu

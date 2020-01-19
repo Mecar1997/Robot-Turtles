@@ -320,7 +320,6 @@ public class GameInterface extends JFrame {
 					 boardButton[i][j].setIcon(null);
 				 } else	if (Main.board.getTile()[i][j].getType()== 1) {
 					 boardButton[i][j].setIcon(wallStone);
-					 boardButton[i][j].setBackground(Color.BLACK);
 				 } else	if (Main.board.getTile()[i][j].getType()== 2) {
 					 boardButton[i][j].setIcon(wallIce);
 				 } else	if (Main.board.getTile()[i][j].getType()== 3) {
@@ -331,10 +330,9 @@ public class GameInterface extends JFrame {
 					 boardButton[i][j].setIcon(jewelRed);
 				 } else	if (Main.board.getTile()[i][j].getType()== 6) {
 					 boardButton[i][j].setIcon(jewelGreen);
-					 boardButton[i][j].setBackground(Color.GREEN);
 				 } else	if (Main.board.getTile()[i][j].getType()== 7) {
 					 boardButton[i][j].setIcon(jewelPurple);
-				 } else	if (Main.board.getTile()[i][j].getType()== 8) {
+				 } else	if (Main.board.getTile()[i][j].getType()== 8) { // tortue
 					 Player p = Main.board.getTile()[i][j].getPlayer();
 					 if (p.getColor() == 0) {
 						 if (p.getDirection() == 0) {

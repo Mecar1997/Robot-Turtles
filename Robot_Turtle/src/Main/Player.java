@@ -13,6 +13,7 @@ public class Player {
 	int points; // points accumulés par le joueur
 	public ArrayList<Card> hand = new ArrayList<Card>(); //liste contenant la main du joueur
 	public ArrayDeque<Card> deck = new ArrayDeque<Card>(); //file contenant le deck du joueur
+	public ArrayDeque<Card> graveyard = new ArrayDeque<Card>(); //file contenant les cartes defaussees du joueur //TODO:
 	public ArrayDeque<Card> program = new ArrayDeque<Card>(); //file contenant le programme du joueur
 	private int wallStone = 3; // nombre de murs de pierre à la disposition du joueur
 	int wallIce = 2; // nombre de murs de glace à la disposition du joueur
@@ -116,6 +117,7 @@ public class Player {
 		// TODO: Permettre à une tortue de pousser une caisse en bois ?
 		// TODO : Implémentation de la colision de deux tortues
 		// TODO: Implémentation du déplacement sur une case Joyau
+		// TODO: Si la tortue sort, elle est retournée à la case départ
 	}	
 	
 	public void returnStart() {
