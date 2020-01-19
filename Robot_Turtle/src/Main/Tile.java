@@ -29,7 +29,7 @@ public class Tile {
 	}
 	
 	
-	public String toString() { // retourne le nom de la tuile en fonction de son type
+	public String toString() { // Retourne le nom de la tuile en fonction de son type
 		if (this.type == 0) {
 			return ("Tuile Vide");
 		} else if (this.type == 1) {

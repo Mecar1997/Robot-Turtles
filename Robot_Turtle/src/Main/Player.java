@@ -1,7 +1,9 @@
 package Main;
 
 import java.util.Random;
+import java.util.Scanner;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 public class Player {
 	int[] position = {0,0};
@@ -9,17 +11,17 @@ public class Player {
 	int color; // 0 = bleu, 1 = rouge, 2 = green, 3 = purple
 	int direction = 2; //0 = nord, 1 = Ouest, 2 = Sud, 3 = Est
 	int points; // points accumulés par le joueur
-	public ArrayDeque<Card> hand = new ArrayDeque<>(); //file contenant la main du joueur
-	public ArrayDeque<Card> deck = new ArrayDeque<>(); //file contenant le deck du joueur
-	public ArrayDeque<Card> program = new ArrayDeque<>(); //file contenant le programme du joueur
+	public ArrayList<Card> hand = new ArrayList<Card>(); //liste contenant la main du joueur
+	public ArrayDeque<Card> deck = new ArrayDeque<Card>(); //file contenant le deck du joueur
+	public ArrayDeque<Card> program = new ArrayDeque<Card>(); //file contenant le programme du joueur
 	int wallStone = 3; // nombre de murs de pierre à la disposition du joueur
 	int wallIce = 2; // nombre de murs de glace à la disposition du joueur
-	
+
 	public Player(int c) {
         this.color = c;
 	}
 	
-	
+	// getters & setters
 	public String getName() {
 		if (this.color == 0) {
 			return "Beep";
@@ -53,23 +55,31 @@ public class Player {
 		return position;
 	}
 	
+	public int[] getstartPosition() {
+		return startPosition;
+	}
+	
+	
 	public void setStartPosition(int a, int b) {
 		startPosition[0] = a;
 		startPosition[1] = b;
 		position[0] = a;
 		position[1] = b;
-		Main.board.tile[position[0]][position[1]].setType(8);
-		Main.board.tile[position[0]][position[1]].setPlayer(color);
+		Main.board.getTile()[position[0]][position[1]].setType(8);
+		Main.board.getTile()[position[0]][position[1]].setPlayer(color);
 	}
 	
 	public void setPosition(int a, int b) {
-		Main.board.tile[position[0]][position[1]].setType(0);
-		Main.board.tile[position[0]][position[1]].removePlayer();
+		Main.board.getTile()[position[0]][position[1]].setType(0);
+		Main.board.getTile()[position[0]][position[1]].removePlayer();
 		position[0] = a;
 		position[1] = b;
-		Main.board.tile[position[0]][position[1]].setType(8);
-		Main.board.tile[position[0]][position[1]].setPlayer(color);
+		Main.board.getTile()[position[0]][position[1]].setType(8);
+		Main.board.getTile()[position[0]][position[1]].setPlayer(color);
 	}
+	
+	
+	// mouvement
 	
 	public void turnLeft() {
 		if (direction == 3) {
@@ -114,23 +124,14 @@ public class Player {
 	public void returnStart() {
 		position = startPosition;
 	}
-	public void runCard() { //TODO: Fonction non implémentée
-		Card currentCard = program.pop();
-		if (currentCard.type == 0) {
-			forward();
-		} else if (currentCard.type == 1) {
-			turnLeft();
-		} else if (currentCard.type == 2) {
-			turnRight();
-		} else if (currentCard.type == 3) {
-			// TODO: Implémentation de la carte Laser
-		}
-	}
+	
+	
+	// Manipulation main + deck
 
 	public void discardHand() {
 		System.out.println("DEBUG: Début défaussage. Nombre de cartes dans la main du joueur " + this.getName() + ": " + this.hand.size());
 		while (hand.size() > 0) {
-			hand.pop();
+			hand.remove(0);
 		}
 		System.out.println("DEBUG: Début défaussage. Nombre de cartes dans la main du joueur " + this.getName() + ": " + this.hand.size());
 		drawCard();
@@ -204,7 +205,7 @@ public class Player {
         //	System.out.print(temporaryDeck[i].toStringDebug());
         //}
 		System.out.println("");
-		System.out.println("DEBUG: Le deck du joueur " + this.getName() + " contient " + b + " cartes Bleues, " + j + " cartes Jaunes, " + j + " cartes Violettes, " + l + " cartes Laser.");
+		System.out.println("DEBUG: Le deck du joueur " + this.getName() + " contient " + b + " cartes Bleues, " + j + " cartes Jaunes, " + v + " cartes Violettes, " + l + " cartes Laser.");
 	}
 	
 	
@@ -219,7 +220,11 @@ public class Player {
 	
 	
 	public void discardCard(int a) {
-		
+		if (hand.size() >= a) {
+			hand.remove(a-1);
+		} else {
+			System.out.println("ERREUR: Il n'y a pas de la cartes dans la main du joueur à l'emplacement " + (a-1));
+		}
 	}
 	
 	
@@ -232,6 +237,8 @@ public class Player {
         System.out.println("");
 	}
 	
+	// Exécution commandes
+	
 	public void removeWall(int a) {
 		if (a == 1) {
 			this.wallStone--;
@@ -240,4 +247,65 @@ public class Player {
 		}
 	}
 	
+	
+	public void executeProgram() {
+		while (program.size() > 0) {
+			Card e = program.pop();
+			runCard(e);
+		}
+	}
+	
+	public void addToProgram(Card e) {
+		program.add(e);
+	}
+	
+	
+	public void showProgram() {
+		Object[] l=program.toArray();
+		System.out.print("DEBUG: Programme du joueur " + this.getName() +": ");
+		for (int i = 0; i < l.length; i++) {
+	        System.out.print(((Card) l[i]).toStringDebug());
+		}
+        System.out.println("");
+	}
+	
+	
+	public void runCard(Card currentCard) {
+		if (currentCard.type == 0) {
+			forward();
+		} else if (currentCard.type == 1) {
+			turnLeft();
+		} else if (currentCard.type == 2) {
+			turnRight();
+		} else if (currentCard.type == 3) {
+			// TODO: Implémentation de la carte Laser
+		} // TODO: Implémentation de la carte Bug
+	}
+	
+	public void playerChoice(){ //TODO: inclure dans executeProgram ?
+		ArrayDeque<String> creationFile =  new ArrayDeque<String>();
+		Scanner scan = new Scanner( System.in );
+					
+		while (creationFile.size() <5) {
+			System.out.println("Veuillez rentrer la direction (A pour avancer,G pour un quart de tours a gauche,D pour un quart de tours a droite");
+
+			if (scan.nextLine().equals("A")) {
+					creationFile.add("A"); 
+			}
+				
+			if (scan.nextLine().equals("G")) {
+					creationFile.add("G"); 
+
+			}
+			
+			if (scan.nextLine().equals("D")) {
+					creationFile.add("D");
+			}
+			else {
+					System.out.println("Rentrez un char valable.");
+					continue;
+				}
+			}
+		System.out.println(creationFile);
+	}
 }

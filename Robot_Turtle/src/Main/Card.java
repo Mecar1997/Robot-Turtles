@@ -37,7 +37,7 @@ public class Card {
 		} else if (this.type == 3){
 			return ("L");
 		} else {
-			return ("R"); //TODO: Carte bug
+			return ("R");
 		}
 	}
 }

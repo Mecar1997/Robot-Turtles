@@ -8,6 +8,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+
+
+import Interface.Menu;
+import Interface.GameInterface;
+
 public class Main {
 	public static int numberPlayers;
 	public static Player[] playersList = {new Player(0),new Player(1),new Player(2),new Player(3)}; //liste contenant tous les joueurs possibles dans le jeu
@@ -15,26 +20,31 @@ public class Main {
 	public static Board board = new Board();
 	public static Player currentPlayer = new Player(0); // Joueur qui passe son tour actuellement
 	public static Player lastPlayer; //Joueur qui vient de finir son tour
-	
+	public static GameInterface HUD;
+	public static Menu startMenu
+	;
 	public static void main(String[] args) {
-		Interface.StartMenu(); //Initialisation Menu
-		Interface.Open(); //ouverture interface graphique
+		startMenu = new Menu();
+		startMenu.initialisation(); //Initialisation Menu
 	}
 	
 	public static void newGame(int p) { //nouvelle partie
 		numberPlayers = p;
-		System.out.println("Il y a " + numberPlayers + " joueurs");
-		board.Initialisation(); //reset du plateau
-		Interface.Close();
+		System.out.println("DEBUG: Nombre de joueurs: " + numberPlayers);
+		board.initialisation(); //reset du plateau
+		Menu.Close();
 		shufflePlayers();
 		setStartPositions();
 		for (int j = 0; j < p; j++) {
-			addPlayer(j);
+		 	addPlayer(j);
 		}
-		board.show();
-		listPlayers(); // DEBUG 
+		HUD = new GameInterface();
+		HUD.initialisation();
+		// board.show();
+		// listPlayers(); // DEBUG 
 		nextTurn();
 	}
+	
 	
 	public static void addPlayer(int k) {
 		System.out.println("DEBUG: Joueur " + k + " ajouté. Son nom est " + playersList[k].getName() + " et sa couleur est le " + playersList[k].getColor());
@@ -71,6 +81,8 @@ public class Main {
 	}
 	
 	public static void nextTurn() {
+		HUD.UpdateBoard();
+		HUD.UpdateHand();
 		if (lastPlayer == null) { //premier tour
 			lastPlayer = new Player(0);
 		} else {
@@ -78,7 +90,7 @@ public class Main {
 			turns.add(lastPlayer);
 		}
 		currentPlayer = turns.pop();
-		commandChoice();
+		// commandChoice();
 	}
 	
 	
@@ -103,27 +115,47 @@ public class Main {
 		int a = 0;
 		Scanner scanner = new Scanner(System.in);
 		do {System.out.println("DEBUG: Tour du joueur " + currentPlayer.getName() + ". Prochain joueur: " + turns.getFirst().getName() + "\r\n" + 
-				"Tapez 1 pour passer votre tour.\r\n" +  //TODO: A enlever
+				"Tapez 1 pour défausser une carte de votre main.\r\n" +
 				"Tapez 2 pour afficher votre main\r\n" + 
 				"Tapez 3 pour placer un mur\r\n" +
-				"Tapez 4 pour afficher votre programme actuel\r\n" +  //TODO
-				"Tapez 5 pour compléter votre programme\r\n" + //TODO
-				"Tapez 6 pour afficher le plateau.\r\n");
+				"Tapez 4 pour ajouter une carte à votre programme\r\n" +
+				"Tapez 5 pour executer votre programme\r\n" +
+				"Tapez 6 pour afficher le plateau.\r\n" +
+				"Tapez 7 pour passer votre tour.\r\n");  //TODO: A enlever
 			a = scanner.nextInt();
-		} while (a < 1 || a > 6);
+		} while (a < 1 || a > 7);
 		if (a == 1) {
-			endTurn();
+			discardChoice();
 		} else if (a == 2) {
 			currentPlayer.showHand();
 			commandChoice();
 		} else if (a == 3) {
 			wallChoice();
-		} else if (a == 6) {
+		} else if (a == 4) {
+			currentPlayer.showProgram(); //TODO:
+		} else if (a == 5) {
+			programChoice(); //TODO:
+		}  else if (a == 6) {
 			board.show();
 			commandChoice();
-		} else {
-			commandChoice();
+		} else if (a == 7){
+			endTurn();
 		}
+	}
+	
+	
+	public static void discardChoice() {
+		int a = 0;
+		Scanner scanner = new Scanner(System.in);
+		do {System.out.println("Faites votre choix \r\n" + 
+				"Tapez 0 pour revenir au menu.\r\n" + 
+				"Tapez 1 à 5 pour défausser une carte de votre main\r\n");
+			a = scanner.nextInt();
+		} while (a < 0 || a > 5);
+		if (a != 0) {
+			currentPlayer.discardCard(a);
+		}
+		commandChoice();
 	}
 	
 	public static void wallChoice() {
@@ -147,14 +179,18 @@ public class Main {
 		} while (c < 0 || c > 7);
 		System.out.println("");
 		// TODO:  Empêcher un joueur de bloquer une tortue ou un joyau
-		if (board.tile[b][c].getType() == 0) {
-			board.tile[b][c].setType(a);
+		if (board.getTile()[b][c].getType() == 0) {
+			board.getTile()[b][c].setType(a);
 			currentPlayer.removeWall(a);
 			System.out.println("Le mur a été placé");
 		} else {
 			System.out.println("ERREUR: L'emplacement indiqué n'est pas vide");
 		}
 		endTurn();
+	}
+	
+	public static void programChoice() {
+		
 	}
 	
 	
