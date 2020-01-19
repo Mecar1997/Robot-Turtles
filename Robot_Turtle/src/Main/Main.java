@@ -201,4 +201,8 @@ public class Main {
 	public static void endSession() {
 		//TODO:  Facultatif. Manche de 3.
 	}
+	
+	public static void save() {
+		//TODO:  Facultatif. Manche de 3.
+	}
 }

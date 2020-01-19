@@ -35,16 +35,12 @@ public class Player {
 		}
 	}
 	
-	public String getColor() {
-		if (this.color == 0) {
-			return "Bleu";
-		} else if (this.color == 1) {
-			return "Rouge";
-		} else if (this.color == 2) {
-			return "Vert";
-		} else {
-			return "Violet";
-		}
+	public int getDirection() {
+		return direction;
+	}
+	
+	public int getColor() {
+		return color;
 	}
 	
 	
@@ -253,6 +249,7 @@ public class Player {
 		while (program.size() > 0) {
 			Card e = program.pop();
 			runCard(e);
+			Main.HUD.updateBoard();
 		}
 	}
 	

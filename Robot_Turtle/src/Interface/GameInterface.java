@@ -29,6 +29,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import Main.Main;
+import Main.Player;
 
 public class GameInterface extends JFrame {
 
@@ -47,25 +48,25 @@ public class GameInterface extends JFrame {
 	//initialisation Images
 	ImageIcon backgroundBoard = new ImageIcon(new ImageIcon("image/Background_board.png").getImage().getScaledInstance(200,200, Image.SCALE_DEFAULT));
 	
-    final static ImageIcon blueE = new ImageIcon(new ImageIcon("image/blueE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon blueN = new ImageIcon(new ImageIcon("image/blueN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon blueS = new ImageIcon(new ImageIcon("image/blueS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon blueW = new ImageIcon(new ImageIcon("image/blueW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon blueE = new ImageIcon(new ImageIcon("images/blueE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon blueN = new ImageIcon(new ImageIcon("images/blueN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon blueS = new ImageIcon(new ImageIcon("images/blueS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon blueW = new ImageIcon(new ImageIcon("images/blueW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
     
-    final static ImageIcon greenE = new ImageIcon(new ImageIcon("image/greenE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon greenN = new ImageIcon(new ImageIcon("image/greenN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon greenS = new ImageIcon(new ImageIcon("image/greenS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon greenW = new ImageIcon(new ImageIcon("image/greenW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon greenE = new ImageIcon(new ImageIcon("images/greenE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon greenN = new ImageIcon(new ImageIcon("images/greenN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon greenS = new ImageIcon(new ImageIcon("images/greenS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon greenW = new ImageIcon(new ImageIcon("images/greenW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
     
-    final static ImageIcon redE = new ImageIcon(new ImageIcon("image/redE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon redN = new ImageIcon(new ImageIcon("image/redN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon redS = new ImageIcon(new ImageIcon("image/redS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon redW = new ImageIcon(new ImageIcon("image/redW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon redE = new ImageIcon(new ImageIcon("images/redE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon redN = new ImageIcon(new ImageIcon("images/redN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon redS = new ImageIcon(new ImageIcon("images/redS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon redW = new ImageIcon(new ImageIcon("images/redW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
     
-    final static ImageIcon purpleE = new ImageIcon(new ImageIcon("image/purpleE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon purpleN = new ImageIcon(new ImageIcon("image/purpleN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon purpleS = new ImageIcon(new ImageIcon("image/purpleS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon purpleW = new ImageIcon(new ImageIcon("image/purpleW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon purpleE = new ImageIcon(new ImageIcon("images/purpleE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon purpleN = new ImageIcon(new ImageIcon("images/purpleN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon purpleS = new ImageIcon(new ImageIcon("images/purpleS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+    final static ImageIcon purpleW = new ImageIcon(new ImageIcon("images/purpleW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
     
     final static ImageIcon jewelBlue = new ImageIcon(new ImageIcon("images/jewel_blue.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
     final static ImageIcon jewelGreen = new ImageIcon(new ImageIcon("images/jewel_green.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
@@ -80,7 +81,7 @@ public class GameInterface extends JFrame {
     final static ImageIcon cardLaser = new ImageIcon(new ImageIcon("images/CardLaser.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
     final static ImageIcon cardYellow = new ImageIcon(new ImageIcon("images/CardYellow.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
     final static ImageIcon cardPurple = new ImageIcon(new ImageIcon("images/CardPurple.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
-    final static ImageIcon cardEmpty = new ImageIcon(new ImageIcon("images/CardEmpty.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
+    final static ImageIcon cardBug = new ImageIcon(new ImageIcon("images/CardEmpty.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
 	
 
     
@@ -99,7 +100,20 @@ public class GameInterface extends JFrame {
 	static JPanel panelWall = new JPanel();
 	static JPanel panelPlayer = new JPanel();
 	static JPanel panelAction = new JPanel();
-    static JPanel panelBoard = new JPanel(new GridLayout(8,8));
+    static JPanel panelBoard = new JPanel(new GridLayout(8,8)) {
+		@Override
+		public void paintComponent(Graphics g)
+	    {
+	        //Chargement de l"image de fond
+	        try {
+	            Image img = ImageIO.read(new File("images\\Background_board.png"));
+	            g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            System.out.println("ERREUR: Background image " +e.getMessage());
+	        }
+	    }
+	};
     
     // Initialisation variables
     static int currentCommand = 0; // 0 = rien, 1 = en train de completer un programme, 2 = en train de placer un mur, 3 = en train d'exécuter un programme
@@ -141,7 +155,6 @@ public class GameInterface extends JFrame {
 		
        	updateButtons();
        	
-       	
 		//Initialisation des boutons du tableau
 		for(int i=0;i<8;i++) {
 			for(int j =0; j<8;j++) {
@@ -175,7 +188,7 @@ public class GameInterface extends JFrame {
 		}
 		
 		//Initialisation wall Panel
-				panelWall.setLayout(new GridLayout(3, 1, 0, 0));
+				panelWall.setLayout(new GridLayout(3, 1, 10, 10));
 				panelMain.add(panelWall);
 				JButton buttonStone = new JButton();
 				buttonStone.addActionListener(new ActionListener() {
@@ -187,6 +200,18 @@ public class GameInterface extends JFrame {
 				buttonStone.setVisible(true);
 				buttonStone.setBackground(Color.lightGray);
 				panelWall.add(buttonStone);
+
+				JButton buttonIce = new JButton();
+				buttonIce.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						//TODO:
+					}
+				});
+				buttonIce.setIcon(wallIce);
+				buttonIce.setBackground(Color.CYAN);
+				buttonIce.setVisible(true);
+				panelWall.add(buttonIce);
+				
 				
 				JButton buttonWood = new JButton();
 				buttonWood.addActionListener(new ActionListener() {
@@ -199,32 +224,20 @@ public class GameInterface extends JFrame {
 				buttonWood.setBackground(Color.lightGray);
 				panelWall.add(buttonWood);
 				
-				JButton buttonIce = new JButton();
-				buttonIce.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						//TODO:
-					}
-				});
-				buttonIce.setIcon(wallIce);
-				buttonIce.setBackground(Color.CYAN);
-
-				buttonIce.setVisible(true);
-				panelWall.add(buttonIce);
 				
 				labelStone.setFont(new Font("Courier New", Font.ITALIC, 12));
-				labelStone.setBounds(500, 287, 33, 56);
+				labelStone.setBounds(500, 280, 33, 56);
 				panelMain.add(labelStone);
 				
-				
-				labelWood.setFont(new Font("Courier New", Font.ITALIC, 12));
-				labelWood.setBounds(500, 345, 33, 56);
-				panelMain.add(labelWood);
-				
-				
 				labelIce.setFont(new Font("Courier New", Font.ITALIC, 12));
-				labelIce.setBounds(500, 402, 33, 56);
+				labelIce.setBounds(500, 340, 33, 56);
 				panelMain.add(labelIce);
 				
+				labelWood.setFont(new Font("Courier New", Font.ITALIC, 12));
+				labelWood.setBounds(500, 400, 33, 56);
+				panelMain.add(labelWood);
+				
+				panelWall.setBounds(440, 270, 49, 170);
 	    
         // action des boutons
 	    passButton.addActionListener(new ActionListener() {
@@ -286,18 +299,14 @@ public class GameInterface extends JFrame {
 		for(int i=0; i<Main.currentPlayer.hand.size();i++) {
 			if (Main.currentPlayer.hand.get(i).getType() == 0) {
 				cardButton[i].setIcon(cardBlue);
-				cardButton[i].setBackground(Color.BLUE);
 			} else if (Main.currentPlayer.hand.get(i).getType() == 1) {
 				 cardButton[i].setIcon(cardYellow);
-					cardButton[i].setBackground(Color.YELLOW);
 			} else if (Main.currentPlayer.hand.get(i).getType() == 2) {
 				 cardButton[i].setIcon(cardPurple);
-					cardButton[i].setBackground(Color.MAGENTA);
 			} else if (Main.currentPlayer.hand.get(i).getType() == 3) {
 				 cardButton[i].setIcon(cardLaser);
-					cardButton[i].setBackground(Color.WHITE);
 			} else if (Main.currentPlayer.hand.get(i).getType() == 4) {
-				cardButton[i].setBackground(Color.BLACK);
+				 cardButton[i].setIcon(cardBug);
 			}
 		 }
 		//TODO: Update player walls
@@ -326,7 +335,48 @@ public class GameInterface extends JFrame {
 				 } else	if (Main.board.getTile()[i][j].getType()== 7) {
 					 boardButton[i][j].setIcon(jewelPurple);
 				 } else	if (Main.board.getTile()[i][j].getType()== 8) {
-					 //TODO: Affichage des tortues
+					 Player p = Main.board.getTile()[i][j].getPlayer();
+					 if (p.getColor() == 0) {
+						 if (p.getDirection() == 0) {
+							 boardButton[i][j].setIcon(blueN);
+						 } else if (p.getDirection() == 1) {
+							 boardButton[i][j].setIcon(blueW);
+						 } else if (p.getDirection() == 2) {
+							 boardButton[i][j].setIcon(blueS);
+						 } else if (p.getDirection() == 3) {
+							 boardButton[i][j].setIcon(blueE);
+						 }
+					 } else	if (p.getColor() == 1) {
+						 if (p.getDirection() == 0) {
+							 boardButton[i][j].setIcon(redN);
+						 } else if (p.getDirection() == 1) {
+							 boardButton[i][j].setIcon(redW);
+						 } else if (p.getDirection() == 2) {
+							 boardButton[i][j].setIcon(redS);
+						 } else if (p.getDirection() == 3) {
+							 boardButton[i][j].setIcon(redE);
+						 }
+					 } else	if (p.getColor() == 2) {
+						 if (p.getDirection() == 0) {
+							 boardButton[i][j].setIcon(greenN);
+						 } else if (p.getDirection() == 1) {
+							 boardButton[i][j].setIcon(greenW);
+						 } else if (p.getDirection() == 2) {
+							 boardButton[i][j].setIcon(greenS);
+						 } else if (p.getDirection() == 3) {
+							 boardButton[i][j].setIcon(greenE);
+						 }
+					 } else	if (p.getColor() == 3) {
+						 if (p.getDirection() == 0) {
+							 boardButton[i][j].setIcon(purpleN);
+						 } else if (p.getDirection() == 1) {
+							 boardButton[i][j].setIcon(purpleW);
+						 } else if (p.getDirection() == 2) {
+							 boardButton[i][j].setIcon(purpleS);
+						 } else if (p.getDirection() == 3) {
+							 boardButton[i][j].setIcon(purpleE);
+						 }
+					 }
 				 }	
 			 }
 		 }

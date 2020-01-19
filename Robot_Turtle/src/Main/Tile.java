@@ -51,4 +51,8 @@ public class Tile {
 		}
 	}
 
+	public Player getPlayer() {
+		return associatedPlayer;
+	}
+
 }
