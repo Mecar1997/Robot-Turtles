@@ -14,9 +14,10 @@ public class Player {
 	public ArrayList<Card> hand = new ArrayList<Card>(); //liste contenant la main du joueur
 	public ArrayDeque<Card> deck = new ArrayDeque<Card>(); //file contenant le deck du joueur
 	public ArrayDeque<Card> program = new ArrayDeque<Card>(); //file contenant le programme du joueur
-	int wallStone = 3; // nombre de murs de pierre à la disposition du joueur
+	private int wallStone = 3; // nombre de murs de pierre à la disposition du joueur
 	int wallIce = 2; // nombre de murs de glace à la disposition du joueur
-
+	int wallWood = 0; // nombre de caisses à la disposition du joueur
+	
 	public Player(int c) {
         this.color = c;
 	}
@@ -241,7 +242,7 @@ public class Player {
 	
 	public void removeWall(int a) {
 		if (a == 1) {
-			this.wallStone--;
+			this.setWallStone(this.getWallStone() - 1);
 		} else {
 			this.wallIce--;
 		}
@@ -307,5 +308,29 @@ public class Player {
 				}
 			}
 		System.out.println(creationFile);
+	}
+
+	public int getWallStone() {
+		return wallStone;
+	}
+
+	public void setWallStone(int wallStone) {
+		this.wallStone = wallStone;
+	}
+	
+	public int getWallIce() {
+		return wallIce;
+	}
+
+	public void setWallIce(int wallIce) {
+		this.wallIce = wallIce;
+	}
+	
+	public int getWallWood() {
+		return wallWood;
+	}
+
+	public void setWallWood(int wallWood) {
+		this.wallWood = wallWood;
 	}
 }

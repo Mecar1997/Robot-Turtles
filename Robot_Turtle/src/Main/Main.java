@@ -81,8 +81,6 @@ public class Main {
 	}
 	
 	public static void nextTurn() {
-		HUD.UpdateBoard();
-		HUD.UpdateHand();
 		if (lastPlayer == null) { //premier tour
 			lastPlayer = new Player(0);
 		} else {
@@ -90,6 +88,7 @@ public class Main {
 			turns.add(lastPlayer);
 		}
 		currentPlayer = turns.pop();
+		HUD.newTurn();
 		// commandChoice();
 	}
 	
@@ -161,7 +160,7 @@ public class Main {
 	public static void wallChoice() {
 		int a = 0; int b = 0; int c = 0;
 		Scanner scanner = new Scanner(System.in);
-		do {System.out.println("DEBUG: Joueur " + currentPlayer.getName() + " possède " + currentPlayer.wallStone + " mur(s) de pierre et " + currentPlayer.wallIce + " mur(s) de glace \r\n" + 
+		do {System.out.println("DEBUG: Joueur " + currentPlayer.getName() + " possède " + currentPlayer.getWallStone() + " mur(s) de pierre et " + currentPlayer.wallIce + " mur(s) de glace \r\n" + 
 				"Tapez 1 pour placer un mur de pierre.\r\n" + 
 				"Tapez 2 pour placer un mur de glace\r\n");
 			a = scanner.nextInt();
