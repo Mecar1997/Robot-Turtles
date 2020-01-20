@@ -25,6 +25,7 @@ public class Main {
 	public static Menu startMenu;
 	public static PostGame postGameMenu;
 	public static int session = 0; //nombre de sessions réalisées
+	public static int turnCounter = 0; //TODO: à réaliser
 	
 	
 	public static void main(String[] args) {
@@ -46,7 +47,6 @@ public class Main {
 		HUD.initialisation();
 		nextTurn();
 	}
-	
 	
 	public static void addPlayer(int k) {
 		System.out.println("DEBUG: Joueur " + k + " ajouté. Son nom est " + playersList[k].getName() + " et sa couleur est le " + playersList[k].getColor());
@@ -82,7 +82,7 @@ public class Main {
 		}
 	}
 	
-	public static void nextTurn() { //TODO: Piochage des cartes
+	public static void nextTurn() {
 		if (lastPlayer == null) { //premier tour
 			lastPlayer = new Player(0);
 		} else {
@@ -90,6 +90,7 @@ public class Main {
 			turns.add(lastPlayer);
 		}
 		currentPlayer = turns.pop();
+		currentPlayer.drawCard();
 		HUD.newTurn();
 	}
 
@@ -109,3 +110,6 @@ public class Main {
 		//TODO:  Facultatif. Manche de 3.
 	}
 }
+
+
+

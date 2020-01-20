@@ -86,8 +86,6 @@ public class GameInterface extends JFrame {
     final static ImageIcon cardYellow = new ImageIcon(new ImageIcon("images/CardYellow.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
     final static ImageIcon cardPurple = new ImageIcon(new ImageIcon("images/CardPurple.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
     final static ImageIcon cardBug = new ImageIcon(new ImageIcon("images/CardEmpty.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
-	
-
     
     // Initialisation texte
     static JLabel labelAction = new JLabel("Choisissez l'action que voulez faire");
@@ -125,11 +123,8 @@ public class GameInterface extends JFrame {
 	};
     
     // Initialisation variables
-    static int currentCommand = 0; // 0 = rien, 1 = en train d'exécuter un programme, 2 = en train de compléter un programme, 3 = construction mur de pierre, 4 = construction mur de glace, 5 = construction mur en bois, 6 = Va passer son tour, 7 = En train de défausser
-    static boolean hasAdded = false; //variable booleene pour empecher d'annuler la complétion du programme si le joueur a ajouté au moins une carte
-    
-    
-    //TODO: Affichage graphique du Laser
+    static int currentCommand = 0; // 0 = rien, 1 = en train d'exécuter un programme, 2 = en train de compléter un programme, 3 = construction mur de pierre, 4 = construction mur de glace, 5 = construction mur en bois, 6 = Va passer son tour, 7 = En train de défausser, 8 = A passé son tour
+    static boolean hasAdded = false; //variable booleene pour empecher d'annuler la complétion du programme si le joueur a ajouté au moins une cart
     
     public static void initialisation() {
     	gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//permet la fermetture
@@ -198,17 +193,17 @@ public class GameInterface extends JFrame {
 			cardB.setVisible(true);
 			cardB.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("" + a+1);
 					JButton c = (JButton) e.getSource();
-					//TODO: Empêcher les joueurs de cliquer sur un bouton vide
-					if (currentCommand == 7) {
-						Main.currentPlayer.discardCard(a);
-						updateHand();
-					} else if (currentCommand == 2) {
-						hasAdded = true;
-						Main.currentPlayer.addToProgram(a);
-						updateButtons();
-						updateHand();
+					if (a < Main.currentPlayer.hand.size()) {
+						if (currentCommand == 7) {
+							Main.currentPlayer.discardCard(a+1);
+							updateHand();
+						} else if (currentCommand == 2) {
+							hasAdded = true;
+							Main.currentPlayer.addToProgram(a);
+							updateButtons();
+							updateHand();
+						}
 					}
 				}
 			});
@@ -218,73 +213,75 @@ public class GameInterface extends JFrame {
 		
 		//Initialisation wall Panel
 		
-		//TODO: Boutons qui marche après avoir effectués une action (BUG) + nombre de murs ne se met pas à jour
-				panelWall.setLayout(new GridLayout(1, 3, 10, 10));
-				panelMain.add(panelWall);
-				JButton buttonStone = new JButton();
-				buttonStone.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						if (Main.currentPlayer.getWallStone() > 0) {
-				        	currentCommand = 3;
-				            updateButtons();
-						} else {
-			        		JOptionPane.showMessageDialog(null, "Vous n'avez pas de mur de pierre", "Construction d'un mur", JOptionPane.ERROR_MESSAGE);
-						}
+		panelWall.setLayout(new GridLayout(1, 3, 10, 10));
+		panelMain.add(panelWall);
+		JButton buttonStone = new JButton();
+		buttonStone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (currentCommand == 0) {
+					if (Main.currentPlayer.getWallStone() > 0) {
+			        	currentCommand = 3;
+			            updateButtons();
+					} else {
+			       		JOptionPane.showMessageDialog(null, "Vous n'avez pas de mur de pierre", "Construction d'un mur", JOptionPane.ERROR_MESSAGE);
 					}
-				});
-				buttonStone.setIcon(wallStone);
-				buttonStone.setVisible(true);
-				buttonStone.setBackground(Color.lightGray);
-				panelWall.add(buttonStone);
-
-				JButton buttonIce = new JButton();
-				buttonIce.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (Main.currentPlayer.getWallIce() > 0) {
-				        	currentCommand = 4;
-				            updateButtons();
-						} else {
-			        		JOptionPane.showMessageDialog(null, "Vous n'avez pas de mur de glace", "Construction d'un mur", JOptionPane.ERROR_MESSAGE);
-						}
+				}
+			}
+		});
+		buttonStone.setIcon(wallStone);
+		buttonStone.setVisible(true);
+		buttonStone.setBackground(Color.lightGray);
+		panelWall.add(buttonStone);
+			
+		JButton buttonIce = new JButton();
+		buttonIce.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (currentCommand == 0) {
+					if (Main.currentPlayer.getWallIce() > 0) {
+			        	currentCommand = 4;
+			            updateButtons();
+					} else {
+			       		JOptionPane.showMessageDialog(null, "Vous n'avez pas de mur de glace", "Construction d'un mur", JOptionPane.ERROR_MESSAGE);
 					}
-				});
-				buttonIce.setIcon(wallIce);
-				buttonIce.setBackground(Color.CYAN);
-				buttonIce.setVisible(true);
-				panelWall.add(buttonIce);
-				
-				
-				JButton buttonWood = new JButton();
-				buttonWood.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (Main.currentPlayer.getWallWood() > 0) {
-				        	currentCommand = 5;
-				            updateButtons();
-						} else {
-			        		JOptionPane.showMessageDialog(null, "Vous n'avez pas de mur en bois", "Construction d'un mur", JOptionPane.ERROR_MESSAGE);
-						}
-
+				}
+			}
+		});
+		buttonIce.setIcon(wallIce);
+		buttonIce.setBackground(Color.CYAN);
+		buttonIce.setVisible(true);
+		panelWall.add(buttonIce);
+			
+		JButton buttonWood = new JButton();
+		buttonWood.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (currentCommand == 0) {
+					if (Main.currentPlayer.getWallWood() > 0) {
+			        	currentCommand = 5;
+			            updateButtons();
+					} else {
+		        		JOptionPane.showMessageDialog(null, "Vous n'avez pas de mur en bois", "Construction d'un mur", JOptionPane.ERROR_MESSAGE);
 					}
-				});
-				buttonWood.setIcon(wallWood);
-				buttonWood.setVisible(true);
-				buttonWood.setBackground(Color.lightGray);
-				panelWall.add(buttonWood);
+				}
+			}
+		});
+		buttonWood.setIcon(wallWood);
+		buttonWood.setVisible(true);
+		buttonWood.setBackground(Color.lightGray);			
+		panelWall.add(buttonWood);
 				
+		labelStone.setFont(new Font("Courier New", Font.ITALIC, 12));
+		labelStone.setBounds(535, 220, 33, 56);
+		panelMain.add(labelStone);
+			
+		labelIce.setFont(new Font("Courier New", Font.ITALIC, 12));
+		labelIce.setBounds(585, 220, 33, 56);
+		panelMain.add(labelIce);
 				
-				labelStone.setFont(new Font("Courier New", Font.ITALIC, 12));
-				labelStone.setBounds(535, 220, 33, 56);
-				panelMain.add(labelStone);
+		labelWood.setFont(new Font("Courier New", Font.ITALIC, 12));
+		labelWood.setBounds(635, 220, 33, 56);
+		panelMain.add(labelWood);
 				
-				labelIce.setFont(new Font("Courier New", Font.ITALIC, 12));
-				labelIce.setBounds(585, 220, 33, 56);
-				panelMain.add(labelIce);
-				
-				labelWood.setFont(new Font("Courier New", Font.ITALIC, 12));
-				labelWood.setBounds(635, 220, 33, 56);
-				panelMain.add(labelWood);
-				
-				panelWall.setBounds(520, 200, 140, 40);
+		panelWall.setBounds(520, 200, 140, 40);
 	    
         // action des boutons
 	    passButton.addActionListener(new ActionListener() {
@@ -326,7 +323,6 @@ public class GameInterface extends JFrame {
 	        		JOptionPane.showMessageDialog(null, "Cliquez sur les cartes de votre main pour les défausser", "Défausser une carte", JOptionPane.INFORMATION_MESSAGE);
 		            updateButtons();	
 	        }
-	        //TODO: A vérifier.
 	    });
 	    
 	    
@@ -341,18 +337,21 @@ public class GameInterface extends JFrame {
 									currentCommand = 6;
 						        	updateBoard();
 									updateButtons();
+									updateText();
 								};
 							} else if (currentCommand == 4) {
 								if (Main.currentPlayer.placeWall(h, k, 2) == true) {
 									currentCommand = 6;
 						        	updateBoard();
 									updateButtons();
+									updateText();
 								};
 							} else if (currentCommand == 5) {
 								if (Main.currentPlayer.placeWall(h, k, 3) == true) {
 									currentCommand = 6;
 						        	updateBoard();
 									updateButtons();
+									updateText();
 								};
 							}
 						}
@@ -386,20 +385,31 @@ public class GameInterface extends JFrame {
 			 for(int i=Main.currentPlayer.hand.size();i<5;i++ ) {
 				 cardButton[i].setIcon(null);
 					cardButton[i].setBackground(null);
+					cardButton[i].setToolTipText(null);
 			 }
 		 }
 		for(int i=0; i<Main.currentPlayer.hand.size();i++) {
-			if (Main.currentPlayer.hand.get(i).getType() == 0) {
-				cardButton[i].setIcon(cardBlue);
-			} else if (Main.currentPlayer.hand.get(i).getType() == 1) {
-				 cardButton[i].setIcon(cardYellow);
-			} else if (Main.currentPlayer.hand.get(i).getType() == 2) {
-				 cardButton[i].setIcon(cardPurple);
-			} else if (Main.currentPlayer.hand.get(i).getType() == 3) {
-				 cardButton[i].setIcon(cardLaser);
-			} else if (Main.currentPlayer.hand.get(i).getType() == 4) {
-				 cardButton[i].setIcon(cardBug);
+			if (currentCommand == 8) {
+				cardButton[i].setIcon(null);
+				cardButton[i].setToolTipText(null);
+			} else {
+				if (Main.currentPlayer.hand.get(i).getType() == 0) {
+					cardButton[i].setIcon(cardBlue);
+					cardButton[i].setToolTipText("Fait avancer la tortue d’une case");
+				} else if (Main.currentPlayer.hand.get(i).getType() == 1) {
+					 cardButton[i].setIcon(cardYellow);
+					cardButton[i].setToolTipText("Fait tourner la tortue dans le sens anti-horaire");
+				} else if (Main.currentPlayer.hand.get(i).getType() == 2) {
+					 cardButton[i].setIcon(cardPurple);
+					cardButton[i].setToolTipText("Fait tourner la tortue dans le sens horaire");
+				} else if (Main.currentPlayer.hand.get(i).getType() == 3) {
+					 cardButton[i].setIcon(cardLaser);
+					cardButton[i].setToolTipText("Touche la première tuile se trouvant en face de la tortue. Si la tuile touchée est un mur de glace, celui-ci va fondre et disparaître");
+				} else if (Main.currentPlayer.hand.get(i).getType() == 4) {
+					 cardButton[i].setIcon(cardBug);
+				}
 			}
+			
 		 }
 	}
 	
@@ -489,15 +499,16 @@ public class GameInterface extends JFrame {
 		} else if (currentCommand == 2){
 			if (hasAdded) {
 				passButton.setVisible(true);
+				discardButton.setVisible(true);
 				cancelButton.setVisible(false);
 			} else {
 				cancelButton.setVisible(true);
 				passButton.setVisible(false);
+				discardButton.setVisible(false);
 			}
 			wallButton.setVisible(false);
 			executeButton.setVisible(false);
 			completeButton.setVisible(false);
-			discardButton.setVisible(false);
 		} else if (currentCommand == 6){
 			cancelButton.setVisible(false);
 			wallButton.setVisible(false);
@@ -515,20 +526,29 @@ public class GameInterface extends JFrame {
 		}
 	}
 	public static void updateText() {
-		labelPlayer.setText("Tour du joueur " + Main.currentPlayer.getName() + ". Prochain joueur: " + Main.turns.getFirst().getName());
+		labelPlayer.setText("Tour de " + Main.currentPlayer.getName() + ". Prochain joueur: " + Main.turns.getFirst().getName());
 		
 		
 		String messageScore = "";
 		//TODO: Ordonner la liste des joueurs en fonction de leur score. Algorithme de tri.
 		labelScore.setText("");
 		
-		
-		labelStone.setText("" + Main.currentPlayer.getWallStone());
-		labelIce.setText("" + Main.currentPlayer.getWallIce());
-		labelWood.setText("" + Main.currentPlayer.getWallWood());
+		if (currentCommand == 8) {
+			labelStone.setText("?");
+			labelIce.setText("?");
+			labelWood.setText("?");
+		} else {
+			labelStone.setText("" + Main.currentPlayer.getWallStone());
+			labelIce.setText("" + Main.currentPlayer.getWallIce());
+			labelWood.setText("" + Main.currentPlayer.getWallWood());
+		}
 	}
 	
 	public static void newTurn() {
+		currentCommand = 8;
+		updateHand();
+		updateText();
+		JOptionPane.showMessageDialog(null, "C'est le tour de " + Main.currentPlayer.getName() , "Tour " + Main.turnCounter, JOptionPane.INFORMATION_MESSAGE);
 		currentCommand = 0;
 		hasAdded = false;
 		updateButtons();

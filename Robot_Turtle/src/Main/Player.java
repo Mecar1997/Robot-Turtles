@@ -213,7 +213,9 @@ public class Player {
 	
 	public void discardCard(int a) {
 		if (hand.size() >= a) {
+			Card c = hand.get(a-1);
 			hand.remove(a-1);
+			graveyard.add(c);
 		} else {
 			System.out.println("ERREUR: Il n'y a pas de la cartes dans la main du joueur à l'emplacement " + (a-1));
 		}
@@ -261,6 +263,7 @@ public class Player {
 	public void addToProgram(int a) {
 		Card e = hand.get(a);
 		hand.remove(a);
+		graveyard.add(e);
 		program.add(e);
 	}
 	
@@ -284,6 +287,7 @@ public class Player {
 			turnRight();
 		} else if (currentCard.type == 3) {
 			// TODO: Implémentation de la carte Laser
+			// TODO: La carte Laser fait fondre les murs, peut toucher les tortues et est réfléchie par les Joyaux.
 		} else if (currentCard.type == 3) {
 			// TODO: Implémentation de la carte Bug
 		}
