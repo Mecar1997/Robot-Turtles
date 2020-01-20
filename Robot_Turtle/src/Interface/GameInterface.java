@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -24,6 +25,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 // ---------------------------
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -40,7 +42,9 @@ public class GameInterface extends JFrame {
     final static JButton wallButton = new JButton("Placer un mur");
     final static JButton executeButton = new JButton("Executer votre programme");
     final static JButton completeButton = new JButton("Compléter votre programme");
-    static final JButton passButton = new JButton("Passer votre tour");
+    final static JButton discardButton = new JButton("Défausser une carte");
+    final static JButton passButton = new JButton("Passer votre tour");
+    final static JButton cancelButton = new JButton("Annuler");
     
 	private static JButton[] cardButton = new JButton[5];
 	private static JButton[][] boardButton = new JButton[8][8];
@@ -94,12 +98,17 @@ public class GameInterface extends JFrame {
 	
 	private static JLabel labelPlayer = new JLabel("1");
 	
+	private static JLabel labelScoreTitle = new JLabel("SCORE");
+	private static JLabel labelScore = new JLabel("1");
+	//TODO: Affichage manche + scores des joueurs en bas
+	
     // Initialisation panel
 	static JLayeredPane panelMain = new JLayeredPane();
 	static JPanel panelHand = new JPanel(new GridLayout(1, 5));
 	static JPanel panelWall = new JPanel();
 	static JPanel panelPlayer = new JPanel();
 	static JPanel panelAction = new JPanel();
+	static JPanel panelScore = new JPanel();
     static JPanel panelBoard = new JPanel(new GridLayout(8,8)) {
 		@Override
 		public void paintComponent(Graphics g)
@@ -116,7 +125,11 @@ public class GameInterface extends JFrame {
 	};
     
     // Initialisation variables
-    static int currentCommand = 0; // 0 = rien, 1 = en train de completer un programme, 2 = en train de placer un mur, 3 = en train d'exécuter un programme
+    static int currentCommand = 0; // 0 = rien, 1 = en train d'exécuter un programme, 2 = en train de compléter un programme, 3 = construction mur de pierre, 4 = construction mur de glace, 5 = construction mur en bois, 6 = Va passer son tour, 7 = En train de défausser
+    static boolean hasAdded = false; //variable booleene pour empecher d'annuler la complétion du programme si le joueur a ajouté au moins une carte
+    
+    
+    //TODO: Affichage graphique du Laser
     
     public static void initialisation() {
     	gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//permet la fermetture
@@ -128,12 +141,13 @@ public class GameInterface extends JFrame {
         gameFrame.getContentPane().setLayout(null);
         
 		//Setup des panels
-		panelMain.setBounds(15, 16, 1044, 648);
+		panelMain.setBounds(0, 0, 800, 700);
 		gameFrame.getContentPane().add(panelMain);
 		panelMain.setLayout(null);
 	
-		labelPlayer.setFont(new Font("Courier New", Font.ITALIC, 12));
-		labelPlayer.setBounds(10, 10, 33, 56);
+		labelPlayer.setFont(new Font("Courier New", Font.BOLD, 13));
+		panelPlayer.setBounds(0, 0, 800, 44);
+		panelPlayer.add(labelPlayer);
 		panelMain.add(panelPlayer);
 
 		panelBoard.setBounds(5, 44, 425, 425);
@@ -142,17 +156,27 @@ public class GameInterface extends JFrame {
 		panelHand.setBounds(15, 486, 407, 146);
 		panelMain.add(panelHand);
 		
-		panelAction.setBounds(500, 86, 200, 146);
+		panelAction.setBounds(500, 86, 200, 96);
 		panelMain.add(panelAction);
-		
+
+		panelScore.setBounds(475, 300, 250, 350);
+		panelScore.setBackground(Color.white);
+		panelScore.setBorder(BorderFactory.createLineBorder(Color.black));
+		panelMain.add(panelScore);
+		labelScoreTitle.setFont(new Font("Arial", Font.BOLD, 17));
+		labelScoreTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		panelScore.add(labelScoreTitle);
+		labelScore.setFont(new Font("Arial", Font.ITALIC, 13));
+		labelScore.setHorizontalAlignment(SwingConstants.CENTER);
+		panelScore.add(labelScore);
 		//Action Panel
 	
        	panelAction.add(labelAction);
        	panelAction.add(executeButton);
        	panelAction.add(completeButton);
-       	panelAction.add(wallButton);
+       	panelAction.add(cancelButton);
+       	panelAction.add(discardButton);
        	panelAction.add(passButton);
-		
        	updateButtons();
        	
 		//Initialisation des boutons du tableau
@@ -161,12 +185,6 @@ public class GameInterface extends JFrame {
 				JButton tileButton = new JButton();
 				tileButton.setOpaque(false);
 				tileButton.setContentAreaFilled(false);
-				tileButton.setName(i+";"+j); //TODO:
-				tileButton.addActionListener(new ActionListener() { //
-					public void actionPerformed(ActionEvent e) {
-						//TODO:
-					}
-				});
 				tileButton.setVisible(true);
 				boardButton[i][j]=tileButton;
 				panelBoard.add(boardButton[i][j]);
@@ -175,12 +193,23 @@ public class GameInterface extends JFrame {
         
 		//Initialisation des boutons de la main
 		for(int i=0; i<5;i++) {
+			int a = i;
 			JButton cardB = new JButton();
 			cardB.setVisible(true);
-			cardB.setName(i+";0"); //TODO
 			cardB.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//TODO:
+					System.out.println("" + a+1);
+					JButton c = (JButton) e.getSource();
+					//TODO: Empêcher les joueurs de cliquer sur un bouton vide
+					if (currentCommand == 7) {
+						Main.currentPlayer.discardCard(a);
+						updateHand();
+					} else if (currentCommand == 2) {
+						hasAdded = true;
+						Main.currentPlayer.addToProgram(a);
+						updateButtons();
+						updateHand();
+					}
 				}
 			});
 			cardButton[i]=cardB;
@@ -188,12 +217,19 @@ public class GameInterface extends JFrame {
 		}
 		
 		//Initialisation wall Panel
-				panelWall.setLayout(new GridLayout(3, 1, 10, 10));
+		
+		//TODO: Boutons qui marche après avoir effectués une action (BUG) + nombre de murs ne se met pas à jour
+				panelWall.setLayout(new GridLayout(1, 3, 10, 10));
 				panelMain.add(panelWall);
 				JButton buttonStone = new JButton();
 				buttonStone.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						//TODO:
+						if (Main.currentPlayer.getWallStone() > 0) {
+				        	currentCommand = 3;
+				            updateButtons();
+						} else {
+			        		JOptionPane.showMessageDialog(null, "Vous n'avez pas de mur de pierre", "Construction d'un mur", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				});
 				buttonStone.setIcon(wallStone);
@@ -204,7 +240,12 @@ public class GameInterface extends JFrame {
 				JButton buttonIce = new JButton();
 				buttonIce.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//TODO:
+						if (Main.currentPlayer.getWallIce() > 0) {
+				        	currentCommand = 4;
+				            updateButtons();
+						} else {
+			        		JOptionPane.showMessageDialog(null, "Vous n'avez pas de mur de glace", "Construction d'un mur", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				});
 				buttonIce.setIcon(wallIce);
@@ -216,7 +257,13 @@ public class GameInterface extends JFrame {
 				JButton buttonWood = new JButton();
 				buttonWood.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						//TODO:
+						if (Main.currentPlayer.getWallWood() > 0) {
+				        	currentCommand = 5;
+				            updateButtons();
+						} else {
+			        		JOptionPane.showMessageDialog(null, "Vous n'avez pas de mur en bois", "Construction d'un mur", JOptionPane.ERROR_MESSAGE);
+						}
+
 					}
 				});
 				buttonWood.setIcon(wallWood);
@@ -226,50 +273,95 @@ public class GameInterface extends JFrame {
 				
 				
 				labelStone.setFont(new Font("Courier New", Font.ITALIC, 12));
-				labelStone.setBounds(500, 280, 33, 56);
+				labelStone.setBounds(535, 220, 33, 56);
 				panelMain.add(labelStone);
 				
 				labelIce.setFont(new Font("Courier New", Font.ITALIC, 12));
-				labelIce.setBounds(500, 340, 33, 56);
+				labelIce.setBounds(585, 220, 33, 56);
 				panelMain.add(labelIce);
 				
 				labelWood.setFont(new Font("Courier New", Font.ITALIC, 12));
-				labelWood.setBounds(500, 400, 33, 56);
+				labelWood.setBounds(635, 220, 33, 56);
 				panelMain.add(labelWood);
 				
-				panelWall.setBounds(440, 270, 49, 170);
+				panelWall.setBounds(520, 200, 140, 40);
 	    
         // action des boutons
 	    passButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            Main.nextTurn();
+		        	Main.nextTurn();
 	        }
 	    });
 	    
 	    executeButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	        	currentCommand = 3;
+	        	currentCommand = 1;
 	            Main.currentPlayer.executeProgram();
+	        	currentCommand = 6;
 	            updateButtons();
 	        }
+	        //TODO: Main: Ralentir les actions pour quelles soient toutes visibles. (import Time ?)
 	    });
 	    
 	    completeButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            	currentCommand = 1;
+	            	currentCommand = 2;
 	        		JOptionPane.showMessageDialog(null, "Cliquez sur les cartes de votre main pour les ajouter au programme", "Compléter le programme", JOptionPane.INFORMATION_MESSAGE);
 		            updateButtons();	
 	        }
+	    });    
+	    
+	    cancelButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	        	if ((currentCommand >= 2) && (currentCommand <= 5) && (!hasAdded)) {
+	        		currentCommand = 0;
+	        		updateButtons();
+	        	}
+			}
 	    });
 	    
-	    wallButton.addActionListener(new ActionListener() {
+	    discardButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            	currentCommand = 2;
-	        		JOptionPane.showMessageDialog(null, "Cliquez sur un mur puis sur un emplacement du plateau pour le construire", "Construction d'un mur", JOptionPane.INFORMATION_MESSAGE);
+	            	currentCommand = 7;
+	        		JOptionPane.showMessageDialog(null, "Cliquez sur les cartes de votre main pour les défausser", "Défausser une carte", JOptionPane.INFORMATION_MESSAGE);
 		            updateButtons();	
 	        }
+	        //TODO: A vérifier.
 	    });
 	    
+	    
+		for(int i=0;i<8;i++) {
+			for(int j =0; j<8;j++) {
+				int h = i; int k = j;
+			    boardButton[h][k].addActionListener(new ActionListener() { //
+					public void actionPerformed(ActionEvent e) {
+						if (Main.board.getTile()[h][k].getType() == 0) {
+							if (currentCommand == 3) {
+								if (Main.currentPlayer.placeWall(h, k, 1) == true) {
+									currentCommand = 6;
+						        	updateBoard();
+									updateButtons();
+								};
+							} else if (currentCommand == 4) {
+								if (Main.currentPlayer.placeWall(h, k, 2) == true) {
+									currentCommand = 6;
+						        	updateBoard();
+									updateButtons();
+								};
+							} else if (currentCommand == 5) {
+								if (Main.currentPlayer.placeWall(h, k, 3) == true) {
+									currentCommand = 6;
+						        	updateBoard();
+									updateButtons();
+								};
+							}
+						}
+					}
+				});
+			}	
+		}
+
+	       
         Open();
 	}
 	
@@ -309,7 +401,6 @@ public class GameInterface extends JFrame {
 				 cardButton[i].setIcon(cardBug);
 			}
 		 }
-		//TODO: Update player walls
 	}
 	
 	public static void updateBoard() {
@@ -383,18 +474,54 @@ public class GameInterface extends JFrame {
 	public static void updateButtons() {
 		if (currentCommand == 0) {
 			passButton.setVisible(false);
+			cancelButton.setVisible(false);
 			wallButton.setVisible(true);
 			executeButton.setVisible(true);
 			completeButton.setVisible(true);
-		} else {
-			passButton.setVisible(true);
+			discardButton.setVisible(false);
+		} else if ((currentCommand >= 3) && (currentCommand <= 5)) {
+			passButton.setVisible(false);
+			cancelButton.setVisible(true);
 			wallButton.setVisible(false);
 			executeButton.setVisible(false);
 			completeButton.setVisible(false);
+			discardButton.setVisible(false);
+		} else if (currentCommand == 2){
+			if (hasAdded) {
+				passButton.setVisible(true);
+				cancelButton.setVisible(false);
+			} else {
+				cancelButton.setVisible(true);
+				passButton.setVisible(false);
+			}
+			wallButton.setVisible(false);
+			executeButton.setVisible(false);
+			completeButton.setVisible(false);
+			discardButton.setVisible(false);
+		} else if (currentCommand == 6){
+			cancelButton.setVisible(false);
+			wallButton.setVisible(false);
+			executeButton.setVisible(false);
+			completeButton.setVisible(false);
+			discardButton.setVisible(true);
+			passButton.setVisible(true);
+		} else if (currentCommand == 7) {
+			passButton.setVisible(true);
+			cancelButton.setVisible(false);
+			wallButton.setVisible(false);
+			executeButton.setVisible(false);
+			completeButton.setVisible(false);
+			discardButton.setVisible(false);
 		}
 	}
 	public static void updateText() {
 		labelPlayer.setText("Tour du joueur " + Main.currentPlayer.getName() + ". Prochain joueur: " + Main.turns.getFirst().getName());
+		
+		
+		String messageScore = "";
+		//TODO: Ordonner la liste des joueurs en fonction de leur score. Algorithme de tri.
+		labelScore.setText("");
+		
 		
 		labelStone.setText("" + Main.currentPlayer.getWallStone());
 		labelIce.setText("" + Main.currentPlayer.getWallIce());
@@ -403,6 +530,7 @@ public class GameInterface extends JFrame {
 	
 	public static void newTurn() {
 		currentCommand = 0;
+		hasAdded = false;
 		updateButtons();
 		update();
 	}

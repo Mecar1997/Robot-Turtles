@@ -13,12 +13,14 @@ public class Player {
 	int points; // points accumulés par le joueur
 	public ArrayList<Card> hand = new ArrayList<Card>(); //liste contenant la main du joueur
 	public ArrayDeque<Card> deck = new ArrayDeque<Card>(); //file contenant le deck du joueur
-	public ArrayDeque<Card> graveyard = new ArrayDeque<Card>(); //file contenant les cartes defaussees du joueur //TODO:
+	public ArrayDeque<Card> graveyard = new ArrayDeque<Card>(); //file contenant les cartes defaussées du joueur //TODO:
 	public ArrayDeque<Card> program = new ArrayDeque<Card>(); //file contenant le programme du joueur
 	private int wallStone = 3; // nombre de murs de pierre à la disposition du joueur
 	int wallIce = 2; // nombre de murs de glace à la disposition du joueur
 	int wallWood = 0; // nombre de caisses à la disposition du joueur
 	
+	
+	//TODO: Direction correcte??
 	public Player(int c) {
         this.color = c;
 	}
@@ -127,16 +129,7 @@ public class Player {
 	
 	// Manipulation main + deck
 
-	public void discardHand() {
-		System.out.println("DEBUG: Début défaussage. Nombre de cartes dans la main du joueur " + this.getName() + ": " + this.hand.size());
-		while (hand.size() > 0) {
-			hand.remove(0);
-		}
-		System.out.println("DEBUG: Début défaussage. Nombre de cartes dans la main du joueur " + this.getName() + ": " + this.hand.size());
-		drawCard();
-	}
-	
-	public void shuffleDeck() {
+	public void shuffleDeck() { //TODO: Changer pour que ca marche avec les cartes défaussées.
 		Card[] temporaryDeck = new Card[37]; // liste temporaire
 		System.out.println("DEBUG: Mélange du deck du joueur " + this.getName());
         for (int i = 0; i < 37; i++) {
@@ -238,12 +231,22 @@ public class Player {
 	
 	// Exécution commandes
 	
-	public void removeWall(int a) {
-		if (a == 1) {
-			this.setWallStone(this.getWallStone() - 1);
-		} else {
-			this.wallIce--;
+	public void removeWall(int type) {
+		if (type == 1) {
+			wallStone--;
+		} else if (type == 2) {
+			wallIce--;
+		} else if (type == 3) {
+			wallWood--;
 		}
+	}
+	
+	public boolean placeWall(int x, int y, int type) {
+		// TODO:  Empêcher un joueur de bloquer une tortue ou un joyau
+		Main.board.getTile()[x][y].setType(type);
+		this.removeWall(type);
+		System.out.println("DEBUG: Mur de type " + type + " placé par " + getName());
+		return true;
 	}
 	
 	
@@ -255,7 +258,9 @@ public class Player {
 		}
 	}
 	
-	public void addToProgram(Card e) {
+	public void addToProgram(int a) {
+		Card e = hand.get(a);
+		hand.remove(a);
 		program.add(e);
 	}
 	
@@ -279,36 +284,11 @@ public class Player {
 			turnRight();
 		} else if (currentCard.type == 3) {
 			// TODO: Implémentation de la carte Laser
-		} // TODO: Implémentation de la carte Bug
+		} else if (currentCard.type == 3) {
+			// TODO: Implémentation de la carte Bug
+		}
 	}
 	
-	public void playerChoice(){ //TODO: inclure dans executeProgram ?
-		ArrayDeque<String> creationFile =  new ArrayDeque<String>();
-		Scanner scan = new Scanner( System.in );
-					
-		while (creationFile.size() <5) {
-			System.out.println("Veuillez rentrer la direction (A pour avancer,G pour un quart de tours a gauche,D pour un quart de tours a droite");
-
-			if (scan.nextLine().equals("A")) {
-					creationFile.add("A"); 
-			}
-				
-			if (scan.nextLine().equals("G")) {
-					creationFile.add("G"); 
-
-			}
-			
-			if (scan.nextLine().equals("D")) {
-					creationFile.add("D");
-			}
-			else {
-					System.out.println("Rentrez un char valable.");
-					continue;
-				}
-			}
-		System.out.println(creationFile);
-	}
-
 	public int getWallStone() {
 		return wallStone;
 	}
