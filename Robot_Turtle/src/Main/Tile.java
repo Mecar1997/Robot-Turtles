@@ -79,11 +79,11 @@ public class Tile {
 	
 	
 	public ImageIcon getIcon() {
+		setIcon();
 		return icon;
 	}
 	
 	public void setIcon() {
-
 		if (this.type == 0) {
 			icon = null;
 		} else if (this.type == 1) {

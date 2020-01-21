@@ -13,23 +13,17 @@ public class Player {
 	private int points; // points accumulés par le joueur
 	public ArrayList<Card> hand = new ArrayList<Card>(); //liste contenant la main du joueur
 	public ArrayDeque<Card> deck = new ArrayDeque<Card>(); //file contenant le deck du joueur
-	public ArrayDeque<Card> graveyard = new ArrayDeque<Card>(); //file contenant les cartes defaussées du joueur //TODO:
+	public ArrayList<Card> graveyard = new ArrayList<Card>(); //file contenant les cartes defaussées du joueur
 	public ArrayDeque<Card> program = new ArrayDeque<Card>(); //file contenant le programme du joueur
-	private int wallStone = 3; // nombre de murs de pierre à la disposition du joueur
-	int wallIce = 2; // nombre de murs de glace à la disposition du joueur
-	int wallWood = 0; // nombre de caisses à la disposition du joueur
-
+	int[] walls = {3,2,0}; // nombre de murs à la disposition du joueur. 0 = pierre, 1 = glace, 2 = bois
+	boolean bugged; // est victime d'une carte Bug
 
 	public int number;	
-	
-	//TODO: Direction correcte??
-	//TODO: Edit règles de collision avec les murs / tortues / bord du terrain selon le nombre de joueurs
-	
 	
 	public Player(int c) {
         this.color = c;
 	}
-	
+	//TODO: out of bounds
 	// getters & setters
 	public String getName() {
 		if (this.color == 0) {
@@ -108,28 +102,12 @@ public class Player {
 		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(8);
 	}
 	
-	public int getWallStone() {
-		return wallStone;
+	public int getWalls(int a) {
+		return walls[a];
 	}
 
-	public void setWallStone(int wallStone) {
-		this.wallStone = wallStone;
-	}
-	
-	public int getWallIce() {
-		return wallIce;
-	}
-
-	public void setWallIce(int wallIce) {
-		this.wallIce = wallIce;
-	}
-	
-	public int getWallWood() {
-		return wallWood;
-	}
-
-	public void setWallWood(int wallWood) {
-		this.wallWood = wallWood;
+	public void setWalls(int wall, int type) {
+		this.walls[type] = wall;
 	}
 
 	public int getPoints() {
@@ -141,6 +119,20 @@ public class Player {
 	}
 	
 	// mouvement
+	public void turnTwice() {
+		System.out.println("demi tour ?");
+		if (direction == 0) {
+			direction = 2;
+		} else if (direction == 1) {
+			direction = 3;		
+		} else if (direction == 2) {
+			direction = 0;
+		} else if (direction == 3) {
+			direction = 1;
+		}
+	}
+	
+	
 	
 	public void turnLeft() {
 		if (direction == 3) {
@@ -175,13 +167,15 @@ public class Player {
 			newX = position[0];
 			newY = position[1]+1;
 		}
-			
-		if (newX < 0 || newX > 7 || newY < 0 || newY > 7) { 		// CHECK: Si la tortue sort, elle est retournée à la case départ
+		
+		if (newX < 0 || newX > 7 || newY < 0 || newY > 7) { // CHECK: Si la tortue sort, elle est retournée à la case départ
 			returnStart();
 			return;
 		}
 		
 		if (Main.currentGame.getBoard().getTile()[newX][newY].isObstacle()) { // empêche d'avancer s'il y'a un obstacle
+			System.out.println("il y'a un obstacle devant cette tortue");
+			turnTwice();
 			return;
 		}
 		
@@ -193,6 +187,7 @@ public class Player {
 		
 		if (Main.currentGame.getBoard().getTile()[newX][newY].isJewel()) { // joyau
 			jewelFound();
+			return;
 		}
 		setPosition(newX,newY);
 		
@@ -201,17 +196,31 @@ public class Player {
 	
 	public void returnStart() {
 		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(0);
-		position = startPosition;
+		this.setPosition(startPosition[0], startPosition[1]);
 		Main.HUD.updateBoard();
 	}
 	
 	public void jewelFound() {
-		// TODO: Implémentation du déplacement sur une case Joyau
+		System.out.println(this.getName() + " a trouvé un joyau.");
+		if (Main.currentGame.players.size() > 2) { // plus de 2 joueurs dans la partie
+			if (Main.currentGame.players.get(0) == this) {
+				Main.currentGame.firstPlayer = Main.currentGame.players.get(1);
+			}
+			Main.currentGame.players.remove(0);
+			Main.currentGame.turns.remove();
+			Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(0);
+			Main.currentGame.getBoard().getTile()[position[0]][position[1]].removePlayer();
+			
+		} else {
+			Main.currentGame.endGame();
+		}
+		//TODO: Ajout système de points
+		System.out.println("Il reste " + Main.currentGame.players.size() + " joueurs");
 	}
 	
 	// Manipulation main + deck
 
-	public void shuffleDeck() { //TODO: Changer pour que ca marche avec les cartes défaussées.
+	public void shuffleDeck() {
 		Card[] temporaryDeck = new Card[37]; // liste temporaire
         for (int i = 0; i < 37; i++) {
         	temporaryDeck[i] = new Card();
@@ -284,6 +293,14 @@ public class Player {
 	
 	public void drawCard() {
 		while (hand.size() < 5) {
+			if (deck.isEmpty()) {
+				System.out.println("deck vide, utilisation des cartes défaussées");
+				while (graveyard.size() > 0) {
+			        Random rand = new Random();
+					int i = rand.nextInt(graveyard.size());
+					deck.add(graveyard.remove(i));
+				}
+			}
 			hand.add(deck.pop());
 		}
 		showDeck();
@@ -330,12 +347,21 @@ public class Player {
 		}
 		
 		if (Main.currentGame.getBoard().getTile()[newX][newY].getType() == 8) { //laser sur une autre tortue
+			if (Main.currentGame.numberPlayers == 2) {
+				Main.currentGame.getBoard().getTile()[newX][newY].getPlayer().turnTwice();
+			} else {
+				Main.currentGame.getBoard().getTile()[newX][newY].getPlayer().returnStart();
+			}
 			Main.currentGame.getBoard().getTile()[newX][newY].getPlayer().returnStart();
 			return;
 		}
 		
 		if (Main.currentGame.getBoard().getTile()[newX][newY].isJewel()) { // laser sur soi
-			returnStart();
+			if (Main.currentGame.numberPlayers == 2) {
+				turnTwice();
+			} else {
+				returnStart();
+			}
 			return;
 		}
 	}
@@ -343,11 +369,11 @@ public class Player {
 	
 	public void removeWall(int type) {
 		if (type == 1) {
-			wallStone--;
+			walls[0]--;
 		} else if (type == 2) {
-			wallIce--;
+			walls[1]--;
 		} else if (type == 3) {
-			wallWood--;
+			walls[2]--;
 		}
 	}
 	
@@ -360,11 +386,17 @@ public class Player {
 	
 	
 	public void executeProgram() {
+		Card e = null;
 		while (program.size() > 0) {
-			Card e = program.pop();
+			if (bugged) {
+				e = program.removeLast();
+			} else {
+				e = program.pop();
+			}
 			runCard(e);
 			Main.HUD.updateBoard();
 		}
+		bugged = false;
 	}
 	
 	public void addToProgram(int a) {

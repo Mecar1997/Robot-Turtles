@@ -83,6 +83,7 @@ public class Game {
 	}
 
 	public static void endGame() {
+		Main.HUD.Close();
 		Main.postGameMenu = new PostGame();
 		Main.postGameMenu.initialisation(); //Initialisation menu de fin
 	}

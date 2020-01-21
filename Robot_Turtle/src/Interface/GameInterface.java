@@ -91,7 +91,7 @@ public class GameInterface extends JFrame {
 	};
     
     // Initialisation variables
-    static int currentCommand = 0; // 0 = rien, 1 = en train d'exécuter un programme, 2 = en train de compléter un programme, 3 = construction mur de pierre, 4 = construction mur de glace, 5 = construction mur en bois, 6 = Va passer son tour, 7 = En train de défausser, 8 = A passé son tour
+    static int currentCommand = 0; // 0 = rien, 1 = en train d'exécuter un programme, 2 = en train de compléter un programme, 3 = construction mur de pierre, 4 = construction mur de glace, 5 = construction mur en bois, 6 = Va passer son tour, 7 = En train de défausser, 8 = A passé son tour, 9 = va bugger un autre joueur
     static boolean hasAdded = false; //variable booleene pour empecher d'annuler la complétion du programme si le joueur a ajouté au moins une cart
     
     public void initialisation() {
@@ -133,10 +133,7 @@ public class GameInterface extends JFrame {
 		labelScore.setHorizontalAlignment(SwingConstants.CENTER);
 		panelScore.add(labelScore);
 		//Action Panel
-	
-		labelScore.setBackground(Color.RED);
-		labelScore.setBounds(500, 325, 225, 325); //TODO: Ne s'affiche pas correctement
-		
+
 
 		
        	panelAction.add(labelAction);
@@ -193,7 +190,7 @@ public class GameInterface extends JFrame {
 		buttonStone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (currentCommand == 0) {
-					if (Main.currentGame.currentPlayer.getWallStone() > 0) {
+					if (Main.currentGame.currentPlayer.getWalls(0) > 0) {
 			        	currentCommand = 3;
 			            updateButtons();
 					} else {
@@ -211,7 +208,7 @@ public class GameInterface extends JFrame {
 		buttonIce.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currentCommand == 0) {
-					if (Main.currentGame.currentPlayer.getWallIce() > 0) {
+					if (Main.currentGame.currentPlayer.getWalls(1) > 0) {
 			        	currentCommand = 4;
 			            updateButtons();
 					} else {
@@ -229,7 +226,7 @@ public class GameInterface extends JFrame {
 		buttonWood.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currentCommand == 0) {
-					if (Main.currentGame.currentPlayer.getWallWood() > 0) {
+					if (Main.currentGame.currentPlayer.getWalls(2) > 0) {
 			        	currentCommand = 5;
 			            updateButtons();
 					} else {
@@ -328,7 +325,10 @@ public class GameInterface extends JFrame {
 									updateText();
 								};
 							}
+						} else if ((currentCommand == 0) &&  (Main.currentGame.board.getTile()[h][k].getType() == 8)){
+							System.out.println(Main.currentGame.board.getTile()[h][k].getPlayer().getDirection());
 						}
+						
 					}
 				});
 			}	
@@ -433,6 +433,7 @@ public class GameInterface extends JFrame {
 		
 		String messageScore = "";
 		//TODO: Ordonner la liste des joueurs en fonction de leur score. Algorithme de tri.
+		//TODO: Ne s'affiche pas correctement
 		for (int i = 0; i < Main.currentGame.players.size(); i++) {
 			messageScore += Main.currentGame.players.get(i).getName() + ":\t\t" + Main.currentGame.players.get(i).getPoints() + "\r\n";
 		}
@@ -443,9 +444,9 @@ public class GameInterface extends JFrame {
 			labelIce.setText("?");
 			labelWood.setText("?");
 		} else {
-			labelStone.setText("" + Main.currentGame.currentPlayer.getWallStone());
-			labelIce.setText("" + Main.currentGame.currentPlayer.getWallIce());
-			labelWood.setText("" + Main.currentGame.currentPlayer.getWallWood());
+			labelStone.setText("" + Main.currentGame.currentPlayer.getWalls(0));
+			labelIce.setText("" + Main.currentGame.currentPlayer.getWalls(1));
+			labelWood.setText("" + Main.currentGame.currentPlayer.getWalls(2));
 		}
 	}
 	

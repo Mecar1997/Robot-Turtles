@@ -42,10 +42,7 @@ public class Main {
 		postGameMenu.initialisation(); //Initialisation menu de fin
 		//TODO:
 	}
-	
-	public static void save() {
-		//TODO:  Facultatif. Manche de 3.
-	}
+
 }
 
 
