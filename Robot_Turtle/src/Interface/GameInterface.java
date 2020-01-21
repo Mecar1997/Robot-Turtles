@@ -98,7 +98,6 @@ public class GameInterface extends JFrame {
 	
 	private static JLabel labelScoreTitle = new JLabel("SCORE");
 	private static JLabel labelScore = new JLabel("1");
-	//TODO: Affichage manche + scores des joueurs en bas
 	
     // Initialisation panel
 	static JLayeredPane panelMain = new JLayeredPane();
@@ -166,6 +165,11 @@ public class GameInterface extends JFrame {
 		panelScore.add(labelScore);
 		//Action Panel
 	
+		labelScore.setBackground(Color.RED);
+		labelScore.setBounds(500, 325, 225, 325); //TODO: Ne s'affiche pas correctement
+		
+		
+		
        	panelAction.add(labelAction);
        	panelAction.add(executeButton);
        	panelAction.add(completeButton);
@@ -526,12 +530,15 @@ public class GameInterface extends JFrame {
 		}
 	}
 	public static void updateText() {
-		labelPlayer.setText("Tour de " + Main.currentGame.currentPlayer.getName() + ". Prochain joueur: " + Main.turns.getFirst().getName());
+		labelPlayer.setText("Tour de " + Main.currentGame.currentPlayer.getName() +" (" + Main.currentGame.currentPlayer.getColorString() + "). Prochain joueur: " + Main.currentGame.turns.getFirst().getName());
 		
 		
 		String messageScore = "";
 		//TODO: Ordonner la liste des joueurs en fonction de leur score. Algorithme de tri.
-		labelScore.setText("");
+		for (int i = 0; i < Main.currentGame.players.size(); i++) {
+			messageScore += Main.currentGame.players.get(i).getName() + ":\t\t" + Main.currentGame.players.get(i).getPoints() + "\r\n";
+		}
+		labelScore.setText(messageScore);
 		
 		if (currentCommand == 8) {
 			labelStone.setText("?");

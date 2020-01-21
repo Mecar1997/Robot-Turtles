@@ -9,8 +9,8 @@ public class Player {
 	int[] position = {0,0};
 	int[] startPosition = {0,0};
 	int color; // 0 = bleu, 1 = rouge, 2 = green, 3 = purple
-	int direction = 2; //0 = nord, 1 = Ouest, 2 = Sud, 3 = Est
-	int points; // points accumulés par le joueur
+	int direction; //0 = nord, 1 = Ouest, 2 = Sud, 3 = Est
+	private int points; // points accumulés par le joueur
 	public ArrayList<Card> hand = new ArrayList<Card>(); //liste contenant la main du joueur
 	public ArrayDeque<Card> deck = new ArrayDeque<Card>(); //file contenant le deck du joueur
 	public ArrayDeque<Card> graveyard = new ArrayDeque<Card>(); //file contenant les cartes defaussées du joueur //TODO:
@@ -18,7 +18,9 @@ public class Player {
 	private int wallStone = 3; // nombre de murs de pierre à la disposition du joueur
 	int wallIce = 2; // nombre de murs de glace à la disposition du joueur
 	int wallWood = 0; // nombre de caisses à la disposition du joueur
-	
+
+
+	public int number;	
 	
 	//TODO: Direction correcte??
 	public Player(int c) {
@@ -35,6 +37,18 @@ public class Player {
 			return "Pangle";
 		} else {
 			return "Dot";
+		}
+	}
+	
+	public String getColorString() {
+		if (this.color == 0) {
+			return "Bleu";
+		} else if (this.color == 1) {
+			return "Rouge";
+		} else if (this.color == 2) {
+			return "Vert";
+		} else {
+			return "Violet";
 		}
 	}
 	
@@ -65,8 +79,19 @@ public class Player {
 		startPosition[1] = b;
 		position[0] = a;
 		position[1] = b;
+		direction = 2;
+		if (Main.currentGame == null) {
+			System.out.println("current game is null");
+		}
+		if (Main.currentGame.getBoard() == null) {
+			System.out.println("current board is null");
+		}
+		if (Main.currentGame.getBoard().getTile()[a][b] == null) {
+			System.out.println("current board tile is null");
+		}
+		
 		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(8);
-		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setPlayer(color);
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setPlayer(this);
 	}
 	
 	public void setPosition(int a, int b) {
@@ -76,9 +101,40 @@ public class Player {
 		position[0] = a;
 		position[1] = b;
 		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(8);
-		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setPlayer(color);
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setPlayer(this);
 	}
 	
+	public int getWallStone() {
+		return wallStone;
+	}
+
+	public void setWallStone(int wallStone) {
+		this.wallStone = wallStone;
+	}
+	
+	public int getWallIce() {
+		return wallIce;
+	}
+
+	public void setWallIce(int wallIce) {
+		this.wallIce = wallIce;
+	}
+	
+	public int getWallWood() {
+		return wallWood;
+	}
+
+	public void setWallWood(int wallWood) {
+		this.wallWood = wallWood;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
 	
 	// mouvement
 	
@@ -99,34 +155,55 @@ public class Player {
 	}
 	
 	public void forward() {
+		int newX = 0;
+		int newY = 0;
+		
 		if (direction == 0) {
-			if (position[0] != 0) { // empêche la tortue d'avancer hors du plateau
-				setPosition(position[0]-1,position[1]);
-			}
+			newX = position[0]-1;
+			newY = position[1];
 		} else if (direction == 1) {
-			if (position[1] != 0) { // empêche la tortue d'avancer hors du plateau
-				setPosition(position[0],position[1]-1);
-			}			
+			newX = position[0];
+			newY = position[1]-1;		
 		} else if (direction == 2) {
-			if (position[0] != 7) { // empêche la tortue d'avancer hors du plateau
-				setPosition(position[0]+1,position[1]);
-			}	
+			newX = position[0]+1;
+			newY = position[1];
 		} else if (direction == 3) {
-			if (position[1] != 7) { // empêche la tortue d'avancer hors du plateau
-				setPosition(position[0],position[1]+1);
-			}
+			newX = position[0];
+			newY = position[1]+1;
 		}
-		// TODO: Empêcher la tortue d'avancer s'il y'a un obstacle
+			
+		if (newX < 0 || newX > 7 || newY < 0 || newY > 7) { 		// CHECK: Si la tortue sort, elle est retournée à la case départ
+			returnStart();
+			return;
+		}
+		
+		if (Main.currentGame.getBoard().getTile()[newX][newY].isObstacle()) { // empêche d'avancer s'il y'a un obstacle
+			return;
+		}
+		
+		if (Main.currentGame.getBoard().getTile()[newX][newY].getType() == 8) { //collision deux tortues
+			returnStart();
+			Main.currentGame.getBoard().getTile()[newX][newY].getPlayer().returnStart();
+			return;
+		}
+		
+		if (Main.currentGame.getBoard().getTile()[newX][newY].isJewel()) { // joyau
+			jewelFound();
+		}
+		setPosition(newX,newY);
+		
 		// TODO: Permettre à une tortue de pousser une caisse en bois ?
-		// TODO : Implémentation de la colision de deux tortues
-		// TODO: Implémentation du déplacement sur une case Joyau
-		// TODO: Si la tortue sort, elle est retournée à la case départ
 	}	
 	
 	public void returnStart() {
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(0);
 		position = startPosition;
+		Main.HUD.updateBoard();
 	}
 	
+	public void jewelFound() {
+		// TODO: Implémentation du déplacement sur une case Joyau
+	}
 	
 	// Manipulation main + deck
 
@@ -222,17 +299,46 @@ public class Player {
 		}
 	}
 	
+	// Exécution commandes
 	
-	public void showHand() {
-		Object[] l=hand.toArray();
-		System.out.print("DEBUG: Main du joueur " + this.getName() +": ");
-		for (int i = 0; i < l.length; i++) {
-	        System.out.print(((Card) l[i]).toStringDebug());
+	public void runLaser() {
+		int newX = 0;
+		int newY = 0;
+		
+		if (direction == 0) {
+			newX = position[0]-1;
+			newY = position[1];
+		} else if (direction == 1) {
+			newX = position[0];
+			newY = position[1]-1;		
+		} else if (direction == 2) {
+			newX = position[0]+1;
+			newY = position[1];
+		} else if (direction == 3) {
+			newX = position[0];
+			newY = position[1]+1;
 		}
-        System.out.println("");
+			
+		if (newX < 0 || newX > 7 || newY < 0 || newY > 7) { // CHECK
+			return;
+		}
+		
+		if (Main.currentGame.getBoard().getTile()[newX][newY].getType() == 2) { // empêche d'avancer s'il y'a un obstacle
+			Main.currentGame.getBoard().getTile()[newX][newY].setType(0);
+			return;
+		}
+		
+		if (Main.currentGame.getBoard().getTile()[newX][newY].getType() == 8) { //laser sur une autre tortue
+			Main.currentGame.getBoard().getTile()[newX][newY].getPlayer().returnStart();
+			return;
+		}
+		
+		if (Main.currentGame.getBoard().getTile()[newX][newY].isJewel()) { // laser sur soi
+			returnStart();
+			return;
+		}
 	}
 	
-	// Exécution commandes
 	
 	public void removeWall(int type) {
 		if (type == 1) {
@@ -268,17 +374,6 @@ public class Player {
 		program.add(e);
 	}
 	
-	
-	public void showProgram() {
-		Object[] l=program.toArray();
-		System.out.print("DEBUG: Programme du joueur " + this.getName() +": ");
-		for (int i = 0; i < l.length; i++) {
-	        System.out.print(((Card) l[i]).toStringDebug());
-		}
-        System.out.println("");
-	}
-	
-	
 	public void runCard(Card currentCard) {
 		if (currentCard.type == 0) {
 			forward();
@@ -287,34 +382,10 @@ public class Player {
 		} else if (currentCard.type == 2) {
 			turnRight();
 		} else if (currentCard.type == 3) {
-			// TODO: Implémentation de la carte Laser
-			// TODO: La carte Laser fait fondre les murs, peut toucher les tortues et est réfléchie par les Joyaux.
+			runLaser();
 		} else if (currentCard.type == 3) {
 			// TODO: Implémentation de la carte Bug
 		}
 	}
 	
-	public int getWallStone() {
-		return wallStone;
-	}
-
-	public void setWallStone(int wallStone) {
-		this.wallStone = wallStone;
-	}
-	
-	public int getWallIce() {
-		return wallIce;
-	}
-
-	public void setWallIce(int wallIce) {
-		this.wallIce = wallIce;
-	}
-	
-	public int getWallWood() {
-		return wallWood;
-	}
-
-	public void setWallWood(int wallWood) {
-		this.wallWood = wallWood;
-	}
 }

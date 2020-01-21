@@ -9,25 +9,19 @@ import Interface.PostGame;
 
 public class Game {
 	public int numberPlayers;
-	public ArrayList<Player> players = new ArrayList<>(); //file contenant les joueurs du jeu
+	public ArrayList<Player> players = new ArrayList<Player>(); //file contenant les joueurs du jeu
 	public ArrayDeque<Player> turns = new ArrayDeque<>(); //file contenant les joueurs du jeu dans l'ordre de leurs tours
-	public Board board = new Board();
-	public Player currentPlayer = new Player(0); // Joueur qui passe son tour actuellement
+	public Board board;
+	public Player currentPlayer; // Joueur qui passe son tour actuellement
 	public Player lastPlayer; //Joueur qui vient de finir son tour
-	public Player firstPlayer; //Joueur qui vient de finir son tour
-	public GameInterface HUD;
-	public static Menu startMenu;
-	public static PostGame postGameMenu;
-	public int turnCounter = 0; //TODO: à réaliser
-	
-	
-	public static void main(String[] args) {
-		startMenu = new Menu();
-		startMenu.initialisation(); //Initialisation Menu
-	}
+	public Player firstPlayer; //Joueur qui débute
+	public int turnCounter = 0;
+	public int jewelsFound = 0;
 	
 	public Game(int p) {
+		Main.currentGame = this;
 		numberPlayers = p;
+		board = new Board();
 		System.out.println("DEBUG: Nombre de joueurs: " + numberPlayers);
 		board.initialisation(); //reset du plateau
 		Menu.Close();
@@ -35,16 +29,17 @@ public class Game {
 		 	addPlayer(j);
 		}
 		setStartPositions();
+		currentPlayer = players.get(0);
 		firstPlayer = players.get(0);
-		HUD = new GameInterface();
-		HUD.initialisation();
+		Main.HUD = new GameInterface();
+		Main.HUD.initialisation();
 		nextTurn();
 	}
 	
 	public void addPlayer(int k) {
         Random rand = new Random();
-		int i = rand.nextInt(Main.playersList.size() - 1);
-		Player a = Main.playersList.remove(k);
+		int i = rand.nextInt(Main.playersList.size());
+		Player a = Main.playersList.remove(i);
 		System.out.println("DEBUG: Joueur " + k + " ajouté. Son nom est " + a.getName() + " et sa couleur est le " + a.getColor());
 		players.add(a);
 		turns.add(a);
@@ -84,17 +79,19 @@ public class Game {
 		}
 		currentPlayer = turns.pop();
 		currentPlayer.drawCard();
-		HUD.newTurn();
+		if (currentPlayer == firstPlayer) {
+			turnCounter++;
+		}
+		Main.HUD.newTurn();
 	}
 
 	public static void endGame() {
-		postGameMenu = new PostGame();
-		postGameMenu.initialisation(true); //Initialisation menu de fin
+		Main.postGameMenu = new PostGame();
+		Main.postGameMenu.initialisation(true); //Initialisation menu de fin
 	}
-	
-	
 	
 	public Board getBoard() {
-		return this.board;
+		return board;
 	}
+	
 }

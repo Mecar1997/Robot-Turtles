@@ -25,19 +25,4 @@ public class Card {
 			return ("Carte Bug");
 		}
 	}
-	
-	
-	public String toStringDebug() {
-		if (this.type == 0) {
-			return ("B");
-		} else if (this.type == 1) {
-			return ("J");
-		} else if (this.type == 2) {
-			return ("V");
-		} else if (this.type == 3){
-			return ("L");
-		} else {
-			return ("R");
-		}
-	}
 }

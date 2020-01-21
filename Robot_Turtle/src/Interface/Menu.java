@@ -58,7 +58,7 @@ public class Menu extends JFrame {
 	};
     
     public static void initialisation() {
-		menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//permet la fermetture
+    	menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//permet la fermetture
 		menuFrame.setSize(400, 600);
 		menuFrame.setResizable(false);
 		menuFrame.setLocationRelativeTo(null);

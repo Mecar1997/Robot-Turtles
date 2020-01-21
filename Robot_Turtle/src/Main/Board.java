@@ -20,13 +20,13 @@ public class Board {
         		getTile()[L][C].setType(0); // on vide toutes les cases
             }
 		}
-        if (Main.numberPlayers == 4) {
+        if (Main.currentGame.numberPlayers == 4) {
 			int i = rand.nextInt(3);
 			getTile()[7][1].setType(4+i);
 			i = rand.nextInt(3);
 			getTile()[7][6].setType(4+i);
         } else {
-        	if (Main.numberPlayers == 3) {
+        	if (Main.currentGame.numberPlayers == 3) {
     			int i = rand.nextInt(3);
     			getTile()[7][0].setType(4+i);
     			i = rand.nextInt(3);

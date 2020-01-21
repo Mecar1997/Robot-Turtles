@@ -20,12 +20,28 @@ public class Tile {
 	}
 	
 	
-	public void setPlayer(int a) {
-		associatedPlayer = Main.currentGame.players.get(a);
+	public void setPlayer(Player a) {
+		associatedPlayer = a;
 	}
 	
 	public void removePlayer() {
 		associatedPlayer = null;
+	}
+	
+	public boolean isObstacle() {
+		if (type == 1 || type == 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isJewel() {
+		if ((type > 3) && (type < 8)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	

@@ -15,16 +15,14 @@ import Interface.PostGame;
 import Interface.GameInterface;
 
 public class Main {
-	public static int numberPlayers;
 	public static ArrayList<Player> playersList = new ArrayList<>(); //liste contenant tous les joueurs possibles dans le jeu.
-	public static ArrayDeque<Player> turns = new ArrayDeque<>(); //file contenant les joueurs du jeu dans l'ordre de leurs tours
 	public static GameInterface HUD;
 	public static Menu startMenu;
 	public static PostGame postGameMenu;
 	public static int session = 0; //nombre de sessions réalisées
 	public static Game currentGame;
 	
-	
+	//TODO: Edit règles de collision avec les murs / tortues / bord du terrain selon le nombre de joueurs
 	public static void main(String[] args) {
 		playersList.add(new Player(0));
 		playersList.add(new Player(1));
@@ -37,7 +35,7 @@ public class Main {
 	
 	public static void newGame(int p) { //nouvelle partie
 		session++;
-		currentGame = new Game(p);
+		new Game(p);
 	}
 	
 	public static void endSession() {
