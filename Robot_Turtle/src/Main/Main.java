@@ -22,7 +22,6 @@ public class Main {
 	public static int session = 0; //nombre de sessions réalisées
 	public static Game currentGame;
 	
-	//TODO: Edit règles de collision avec les murs / tortues / bord du terrain selon le nombre de joueurs
 	public static void main(String[] args) {
 		playersList.add(new Player(0));
 		playersList.add(new Player(1));
@@ -40,7 +39,7 @@ public class Main {
 	
 	public static void endSession() {
 		postGameMenu = new PostGame();
-		postGameMenu.initialisation(false); //Initialisation menu de fin
+		postGameMenu.initialisation(); //Initialisation menu de fin
 		//TODO:
 	}
 	

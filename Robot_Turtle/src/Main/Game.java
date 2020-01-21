@@ -22,7 +22,6 @@ public class Game {
 		Main.currentGame = this;
 		numberPlayers = p;
 		board = new Board();
-		System.out.println("DEBUG: Nombre de joueurs: " + numberPlayers);
 		board.initialisation(); //reset du plateau
 		Menu.Close();
 		for (int j = 0; j < p; j++) {
@@ -40,7 +39,6 @@ public class Game {
         Random rand = new Random();
 		int i = rand.nextInt(Main.playersList.size());
 		Player a = Main.playersList.remove(i);
-		System.out.println("DEBUG: Joueur " + k + " ajouté. Son nom est " + a.getName() + " et sa couleur est le " + a.getColor());
 		players.add(a);
 		turns.add(a);
 		a.shuffleDeck();
@@ -50,7 +48,6 @@ public class Game {
 	public void listPlayers() {
 		Object[] l=turns.toArray();
 		for (int i = 0; i < l.length; i++) {
-			System.out.println("DEBUG: Joueur " + i + ". Son nom est " + ((Player) l[i]).getName() + " et sa couleur est le " + ((Player) l[i]).getColor());
 		}
 	}
 	
@@ -87,7 +84,7 @@ public class Game {
 
 	public static void endGame() {
 		Main.postGameMenu = new PostGame();
-		Main.postGameMenu.initialisation(true); //Initialisation menu de fin
+		Main.postGameMenu.initialisation(); //Initialisation menu de fin
 	}
 	
 	public Board getBoard() {

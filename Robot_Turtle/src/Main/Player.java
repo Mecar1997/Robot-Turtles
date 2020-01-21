@@ -23,6 +23,9 @@ public class Player {
 	public int number;	
 	
 	//TODO: Direction correcte??
+	//TODO: Edit règles de collision avec les murs / tortues / bord du terrain selon le nombre de joueurs
+	
+	
 	public Player(int c) {
         this.color = c;
 	}
@@ -89,9 +92,9 @@ public class Player {
 		if (Main.currentGame.getBoard().getTile()[a][b] == null) {
 			System.out.println("current board tile is null");
 		}
-		
-		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(8);
+
 		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setPlayer(this);
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(8);
 	}
 	
 	public void setPosition(int a, int b) {
@@ -100,8 +103,9 @@ public class Player {
 		
 		position[0] = a;
 		position[1] = b;
-		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(8);
+
 		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setPlayer(this);
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(8);
 	}
 	
 	public int getWallStone() {
@@ -209,7 +213,6 @@ public class Player {
 
 	public void shuffleDeck() { //TODO: Changer pour que ca marche avec les cartes défaussées.
 		Card[] temporaryDeck = new Card[37]; // liste temporaire
-		System.out.println("DEBUG: Mélange du deck du joueur " + this.getName());
         for (int i = 0; i < 37; i++) {
         	temporaryDeck[i] = new Card();
         }
@@ -280,11 +283,9 @@ public class Player {
 	
 	
 	public void drawCard() {
-		System.out.println("DEBUG: Initialisation. Nombre de cartes dans la main du joueur " + this.getName() + ": " + this.hand.size());
 		while (hand.size() < 5) {
 			hand.add(deck.pop());
 		}
-		System.out.println("DEBUG: Fin. Nombre de cartes dans la main du joueur " + this.getName() + ": " + this.hand.size());
 		showDeck();
 	}
 	
@@ -354,7 +355,6 @@ public class Player {
 		// TODO:  Empêcher un joueur de bloquer une tortue ou un joyau
 		Main.currentGame.getBoard().getTile()[x][y].setType(type);
 		this.removeWall(type);
-		System.out.println("DEBUG: Mur de type " + type + " placé par " + getName());
 		return true;
 	}
 	
@@ -383,8 +383,6 @@ public class Player {
 			turnRight();
 		} else if (currentCard.type == 3) {
 			runLaser();
-		} else if (currentCard.type == 3) {
-			// TODO: Implémentation de la carte Bug
 		}
 	}
 	

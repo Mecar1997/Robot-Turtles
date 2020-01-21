@@ -29,9 +29,26 @@ import Main.Main;
 
 public class PostGame extends JFrame {
 
+    static JFrame menuFrame = new JFrame("Robot Turtles");
+    
+    static JPanel menuPanel = new JPanel() {
+		@Override
+		public void paintComponent(Graphics g)
+	    {
+	        //Chargement de l"image de fond
+	        try {
+	            Image img = ImageIO.read(new File("images\\Background_menu.jpeg"));
+	            g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            System.out.println("ERREUR: Background image " +e.getMessage());
+	        }
+	    }
+	};
     //TODO: à implémenter
 	
-    public static void initialisation(boolean more) {
+	
+    public void initialisation() {
     	
     }
 	

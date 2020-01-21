@@ -13,7 +13,6 @@ public class Board {
 	
 	public void initialisation() {
         Random rand = new Random();
-		System.out.println("DEBUG: Initialisation");
 		for (int L = 0; L < this.size; L++) {
             for (int C = 0; C < this.size; C++) {
         		getTile()[L][C] = new Tile();
@@ -41,7 +40,6 @@ public class Board {
             for (int L = 0; L < this.size; L++) {
             	getTile()[L][size-1].setType(1); //on ajoute des murs de pierre si le nombre de joueurs est inférieur à 4
             }
-    		System.out.println("DEBUG: Murs de pierres ajoutés");
         }
 	}
 	
@@ -65,42 +63,8 @@ public class Board {
 		return o;
 	}
 	
-	public void show() {
-		System.out.println("|12345678|");
-		for (int L = 0; L < this.size; L++) {
-			System.out.print("|");
-            for (int C = 0; C < this.size; C++) {
-            	if (getTile()[L][C].associatedPlayer != null) {
-        			System.out.print(getTile()[L][C].associatedPlayer.color);
-            	} else {
-            		if (getTile()[L][C].getType() == 0) {
-            			System.out.print(".");
-            		}else if (getTile()[L][C].getType() == 1) {
-            			System.out.print("S");
-            		}else if (getTile()[L][C].getType() == 2) {
-            			System.out.print("I");
-            		}else if (getTile()[L][C].getType() == 3) {
-            			System.out.print("C");
-            		}else if (getTile()[L][C].getType() == 4) {
-            			System.out.print("B");
-            		}else if (getTile()[L][C].getType() == 5) {
-            			System.out.print("R");
-            		}else if (getTile()[L][C].getType() == 6) {
-            			System.out.print("V");
-            		}else if (getTile()[L][C].getType() == 7) {
-            			System.out.print("P");
-            		}
-            	}
-            }
-			System.out.println("|");
-		}
-	}
-
 	public Tile[][] getTile() {
 		return tile;
 	}
 
-	public void setTile(Tile[][] tile) {
-		tile = tile;
-	}
 }

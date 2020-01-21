@@ -51,41 +51,10 @@ public class GameInterface extends JFrame {
 	
 	//initialisation Images
 	ImageIcon backgroundBoard = new ImageIcon(new ImageIcon("image/Background_board.png").getImage().getScaledInstance(200,200, Image.SCALE_DEFAULT));
-	
-    final static ImageIcon blueE = new ImageIcon(new ImageIcon("images/blueE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon blueN = new ImageIcon(new ImageIcon("images/blueN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon blueS = new ImageIcon(new ImageIcon("images/blueS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon blueW = new ImageIcon(new ImageIcon("images/blueW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    
-    final static ImageIcon greenE = new ImageIcon(new ImageIcon("images/greenE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon greenN = new ImageIcon(new ImageIcon("images/greenN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon greenS = new ImageIcon(new ImageIcon("images/greenS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon greenW = new ImageIcon(new ImageIcon("images/greenW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    
-    final static ImageIcon redE = new ImageIcon(new ImageIcon("images/redE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon redN = new ImageIcon(new ImageIcon("images/redN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon redS = new ImageIcon(new ImageIcon("images/redS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon redW = new ImageIcon(new ImageIcon("images/redW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    
-    final static ImageIcon purpleE = new ImageIcon(new ImageIcon("images/purpleE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon purpleN = new ImageIcon(new ImageIcon("images/purpleN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon purpleS = new ImageIcon(new ImageIcon("images/purpleS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon purpleW = new ImageIcon(new ImageIcon("images/purpleW.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    
-    final static ImageIcon jewelBlue = new ImageIcon(new ImageIcon("images/jewel_blue.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon jewelGreen = new ImageIcon(new ImageIcon("images/jewel_green.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon jewelRed = new ImageIcon(new ImageIcon("images/jewel_red.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    final static ImageIcon jewelPurple = new ImageIcon(new ImageIcon("images/jewel_purple.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
     
     final static ImageIcon wallIce = new ImageIcon(new ImageIcon("images/wall_ice.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
     final static ImageIcon wallStone = new ImageIcon(new ImageIcon("images/wall_stone.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
     final static ImageIcon wallWood = new ImageIcon(new ImageIcon("images/wall_wood.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-    
-    final static ImageIcon cardBlue = new ImageIcon(new ImageIcon("images/CardBlue.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
-    final static ImageIcon cardLaser = new ImageIcon(new ImageIcon("images/CardLaser.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
-    final static ImageIcon cardYellow = new ImageIcon(new ImageIcon("images/CardYellow.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
-    final static ImageIcon cardPurple = new ImageIcon(new ImageIcon("images/CardPurple.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
-    final static ImageIcon cardBug = new ImageIcon(new ImageIcon("images/CardEmpty.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
     
     // Initialisation texte
     static JLabel labelAction = new JLabel("Choisissez l'action que voulez faire");
@@ -125,7 +94,7 @@ public class GameInterface extends JFrame {
     static int currentCommand = 0; // 0 = rien, 1 = en train d'exécuter un programme, 2 = en train de compléter un programme, 3 = construction mur de pierre, 4 = construction mur de glace, 5 = construction mur en bois, 6 = Va passer son tour, 7 = En train de défausser, 8 = A passé son tour
     static boolean hasAdded = false; //variable booleene pour empecher d'annuler la complétion du programme si le joueur a ajouté au moins une cart
     
-    public static void initialisation() {
+    public void initialisation() {
     	gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//permet la fermetture
     	
 		//création de la fenetre
@@ -168,7 +137,7 @@ public class GameInterface extends JFrame {
 		labelScore.setBackground(Color.RED);
 		labelScore.setBounds(500, 325, 225, 325); //TODO: Ne s'affiche pas correctement
 		
-		
+
 		
        	panelAction.add(labelAction);
        	panelAction.add(executeButton);
@@ -199,6 +168,7 @@ public class GameInterface extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					JButton c = (JButton) e.getSource();
 					if (a < Main.currentGame.currentPlayer.hand.size()) {
+						// TODO: Implémentation de la carte Bug
 						if (currentCommand == 7) {
 							Main.currentGame.currentPlayer.discardCard(a+1);
 							updateHand();
@@ -397,90 +367,18 @@ public class GameInterface extends JFrame {
 				cardButton[i].setIcon(null);
 				cardButton[i].setToolTipText(null);
 			} else {
-				if (Main.currentGame.currentPlayer.hand.get(i).getType() == 0) {
-					cardButton[i].setIcon(cardBlue);
-					cardButton[i].setToolTipText("Fait avancer la tortue d’une case");
-				} else if (Main.currentGame.currentPlayer.hand.get(i).getType() == 1) {
-					 cardButton[i].setIcon(cardYellow);
-					cardButton[i].setToolTipText("Fait tourner la tortue dans le sens anti-horaire");
-				} else if (Main.currentGame.currentPlayer.hand.get(i).getType() == 2) {
-					 cardButton[i].setIcon(cardPurple);
-					cardButton[i].setToolTipText("Fait tourner la tortue dans le sens horaire");
-				} else if (Main.currentGame.currentPlayer.hand.get(i).getType() == 3) {
-					 cardButton[i].setIcon(cardLaser);
-					cardButton[i].setToolTipText("Touche la première tuile se trouvant en face de la tortue. Si la tuile touchée est un mur de glace, celui-ci va fondre et disparaître");
-				} else if (Main.currentGame.currentPlayer.hand.get(i).getType() == 4) {
-					 cardButton[i].setIcon(cardBug);
-				}
+				cardButton[i].setIcon(Main.currentGame.currentPlayer.hand.get(i).getIcon());
+				cardButton[i].setToolTipText(Main.currentGame.currentPlayer.hand.get(i).getTooltip());
 			}
 			
 		 }
 	}
 	
-	public static void updateBoard() {
+	public void updateBoard() {
 		// affiche les tortues, joyaux et murs
 		 for(int i=0; i<8;i++) {
 			 for(int j=0;j<8; j++) {
-				 if (Main.currentGame.board.getTile()[i][j].getType()== 0) {
-					 boardButton[i][j].setIcon(null);
-				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 1) {
-					 boardButton[i][j].setIcon(wallStone);
-				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 2) {
-					 boardButton[i][j].setIcon(wallIce);
-				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 3) {
-					 boardButton[i][j].setIcon(wallWood);
-				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 4) {
-					 boardButton[i][j].setIcon(jewelBlue);
-				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 5) {
-					 boardButton[i][j].setIcon(jewelRed);
-				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 6) {
-					 boardButton[i][j].setIcon(jewelGreen);
-				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 7) {
-					 boardButton[i][j].setIcon(jewelPurple);
-				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 8) { // tortue
-					 Player p = Main.currentGame.board.getTile()[i][j].getPlayer();
-					 if (p.getColor() == 0) {
-						 if (p.getDirection() == 0) {
-							 boardButton[i][j].setIcon(blueN);
-						 } else if (p.getDirection() == 1) {
-							 boardButton[i][j].setIcon(blueW);
-						 } else if (p.getDirection() == 2) {
-							 boardButton[i][j].setIcon(blueS);
-						 } else if (p.getDirection() == 3) {
-							 boardButton[i][j].setIcon(blueE);
-						 }
-					 } else	if (p.getColor() == 1) {
-						 if (p.getDirection() == 0) {
-							 boardButton[i][j].setIcon(redN);
-						 } else if (p.getDirection() == 1) {
-							 boardButton[i][j].setIcon(redW);
-						 } else if (p.getDirection() == 2) {
-							 boardButton[i][j].setIcon(redS);
-						 } else if (p.getDirection() == 3) {
-							 boardButton[i][j].setIcon(redE);
-						 }
-					 } else	if (p.getColor() == 2) {
-						 if (p.getDirection() == 0) {
-							 boardButton[i][j].setIcon(greenN);
-						 } else if (p.getDirection() == 1) {
-							 boardButton[i][j].setIcon(greenW);
-						 } else if (p.getDirection() == 2) {
-							 boardButton[i][j].setIcon(greenS);
-						 } else if (p.getDirection() == 3) {
-							 boardButton[i][j].setIcon(greenE);
-						 }
-					 } else	if (p.getColor() == 3) {
-						 if (p.getDirection() == 0) {
-							 boardButton[i][j].setIcon(purpleN);
-						 } else if (p.getDirection() == 1) {
-							 boardButton[i][j].setIcon(purpleW);
-						 } else if (p.getDirection() == 2) {
-							 boardButton[i][j].setIcon(purpleS);
-						 } else if (p.getDirection() == 3) {
-							 boardButton[i][j].setIcon(purpleE);
-						 }
-					 }
-				 }	
+					 boardButton[i][j].setIcon(Main.currentGame.board.getTile()[i][j].getIcon());
 			 }
 		 }
 	}
@@ -551,7 +449,7 @@ public class GameInterface extends JFrame {
 		}
 	}
 	
-	public static void newTurn() {
+	public void newTurn() {
 		currentCommand = 8;
 		updateHand();
 		updateText();
@@ -562,7 +460,7 @@ public class GameInterface extends JFrame {
 		update();
 	}
 	
-	public static void update() {
+	public void update() {
 		updateText();
 		updateBoard();
 		updateHand();
