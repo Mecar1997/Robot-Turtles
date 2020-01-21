@@ -65,17 +65,18 @@ public class Player {
 		startPosition[1] = b;
 		position[0] = a;
 		position[1] = b;
-		Main.board.getTile()[position[0]][position[1]].setType(8);
-		Main.board.getTile()[position[0]][position[1]].setPlayer(color);
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(8);
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setPlayer(color);
 	}
 	
 	public void setPosition(int a, int b) {
-		Main.board.getTile()[position[0]][position[1]].setType(0);
-		Main.board.getTile()[position[0]][position[1]].removePlayer();
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(0);
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].removePlayer();
+		
 		position[0] = a;
 		position[1] = b;
-		Main.board.getTile()[position[0]][position[1]].setType(8);
-		Main.board.getTile()[position[0]][position[1]].setPlayer(color);
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(8);
+		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setPlayer(color);
 	}
 	
 	
@@ -245,7 +246,7 @@ public class Player {
 	
 	public boolean placeWall(int x, int y, int type) {
 		// TODO:  Empêcher un joueur de bloquer une tortue ou un joyau
-		Main.board.getTile()[x][y].setType(type);
+		Main.currentGame.getBoard().getTile()[x][y].setType(type);
 		this.removeWall(type);
 		System.out.println("DEBUG: Mur de type " + type + " placé par " + getName());
 		return true;

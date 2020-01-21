@@ -194,13 +194,13 @@ public class GameInterface extends JFrame {
 			cardB.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					JButton c = (JButton) e.getSource();
-					if (a < Main.currentPlayer.hand.size()) {
+					if (a < Main.currentGame.currentPlayer.hand.size()) {
 						if (currentCommand == 7) {
-							Main.currentPlayer.discardCard(a+1);
+							Main.currentGame.currentPlayer.discardCard(a+1);
 							updateHand();
 						} else if (currentCommand == 2) {
 							hasAdded = true;
-							Main.currentPlayer.addToProgram(a);
+							Main.currentGame.currentPlayer.addToProgram(a);
 							updateButtons();
 							updateHand();
 						}
@@ -219,7 +219,7 @@ public class GameInterface extends JFrame {
 		buttonStone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (currentCommand == 0) {
-					if (Main.currentPlayer.getWallStone() > 0) {
+					if (Main.currentGame.currentPlayer.getWallStone() > 0) {
 			        	currentCommand = 3;
 			            updateButtons();
 					} else {
@@ -237,7 +237,7 @@ public class GameInterface extends JFrame {
 		buttonIce.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currentCommand == 0) {
-					if (Main.currentPlayer.getWallIce() > 0) {
+					if (Main.currentGame.currentPlayer.getWallIce() > 0) {
 			        	currentCommand = 4;
 			            updateButtons();
 					} else {
@@ -255,7 +255,7 @@ public class GameInterface extends JFrame {
 		buttonWood.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currentCommand == 0) {
-					if (Main.currentPlayer.getWallWood() > 0) {
+					if (Main.currentGame.currentPlayer.getWallWood() > 0) {
 			        	currentCommand = 5;
 			            updateButtons();
 					} else {
@@ -286,14 +286,14 @@ public class GameInterface extends JFrame {
         // action des boutons
 	    passButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-		        	Main.nextTurn();
+		        	Main.currentGame.nextTurn();
 	        }
 	    });
 	    
 	    executeButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	        	currentCommand = 1;
-	            Main.currentPlayer.executeProgram();
+	            Main.currentGame.currentPlayer.executeProgram();
 	        	currentCommand = 6;
 	            updateButtons();
 	        }
@@ -331,23 +331,23 @@ public class GameInterface extends JFrame {
 				int h = i; int k = j;
 			    boardButton[h][k].addActionListener(new ActionListener() { //
 					public void actionPerformed(ActionEvent e) {
-						if (Main.board.getTile()[h][k].getType() == 0) {
+						if (Main.currentGame.board.getTile()[h][k].getType() == 0) {
 							if (currentCommand == 3) {
-								if (Main.currentPlayer.placeWall(h, k, 1) == true) {
+								if (Main.currentGame.currentPlayer.placeWall(h, k, 1) == true) {
 									currentCommand = 6;
 						        	updateBoard();
 									updateButtons();
 									updateText();
 								};
 							} else if (currentCommand == 4) {
-								if (Main.currentPlayer.placeWall(h, k, 2) == true) {
+								if (Main.currentGame.currentPlayer.placeWall(h, k, 2) == true) {
 									currentCommand = 6;
 						        	updateBoard();
 									updateButtons();
 									updateText();
 								};
 							} else if (currentCommand == 5) {
-								if (Main.currentPlayer.placeWall(h, k, 3) == true) {
+								if (Main.currentGame.currentPlayer.placeWall(h, k, 3) == true) {
 									currentCommand = 6;
 						        	updateBoard();
 									updateButtons();
@@ -381,31 +381,31 @@ public class GameInterface extends JFrame {
 	
 	public static void updateHand() {
 		// Affiche la main du joueur
-		 if(Main.currentPlayer.hand.size()<5) { //Si la main est plus petite que 5
-			 for(int i=Main.currentPlayer.hand.size();i<5;i++ ) {
+		 if(Main.currentGame.currentPlayer.hand.size()<5) { //Si la main est plus petite que 5
+			 for(int i=Main.currentGame.currentPlayer.hand.size();i<5;i++ ) {
 				 cardButton[i].setIcon(null);
 					cardButton[i].setBackground(null);
 					cardButton[i].setToolTipText(null);
 			 }
 		 }
-		for(int i=0; i<Main.currentPlayer.hand.size();i++) {
+		for(int i=0; i<Main.currentGame.currentPlayer.hand.size();i++) {
 			if (currentCommand == 8) {
 				cardButton[i].setIcon(null);
 				cardButton[i].setToolTipText(null);
 			} else {
-				if (Main.currentPlayer.hand.get(i).getType() == 0) {
+				if (Main.currentGame.currentPlayer.hand.get(i).getType() == 0) {
 					cardButton[i].setIcon(cardBlue);
 					cardButton[i].setToolTipText("Fait avancer la tortue d’une case");
-				} else if (Main.currentPlayer.hand.get(i).getType() == 1) {
+				} else if (Main.currentGame.currentPlayer.hand.get(i).getType() == 1) {
 					 cardButton[i].setIcon(cardYellow);
 					cardButton[i].setToolTipText("Fait tourner la tortue dans le sens anti-horaire");
-				} else if (Main.currentPlayer.hand.get(i).getType() == 2) {
+				} else if (Main.currentGame.currentPlayer.hand.get(i).getType() == 2) {
 					 cardButton[i].setIcon(cardPurple);
 					cardButton[i].setToolTipText("Fait tourner la tortue dans le sens horaire");
-				} else if (Main.currentPlayer.hand.get(i).getType() == 3) {
+				} else if (Main.currentGame.currentPlayer.hand.get(i).getType() == 3) {
 					 cardButton[i].setIcon(cardLaser);
 					cardButton[i].setToolTipText("Touche la première tuile se trouvant en face de la tortue. Si la tuile touchée est un mur de glace, celui-ci va fondre et disparaître");
-				} else if (Main.currentPlayer.hand.get(i).getType() == 4) {
+				} else if (Main.currentGame.currentPlayer.hand.get(i).getType() == 4) {
 					 cardButton[i].setIcon(cardBug);
 				}
 			}
@@ -417,24 +417,24 @@ public class GameInterface extends JFrame {
 		// affiche les tortues, joyaux et murs
 		 for(int i=0; i<8;i++) {
 			 for(int j=0;j<8; j++) {
-				 if (Main.board.getTile()[i][j].getType()== 0) {
+				 if (Main.currentGame.board.getTile()[i][j].getType()== 0) {
 					 boardButton[i][j].setIcon(null);
-				 } else	if (Main.board.getTile()[i][j].getType()== 1) {
+				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 1) {
 					 boardButton[i][j].setIcon(wallStone);
-				 } else	if (Main.board.getTile()[i][j].getType()== 2) {
+				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 2) {
 					 boardButton[i][j].setIcon(wallIce);
-				 } else	if (Main.board.getTile()[i][j].getType()== 3) {
+				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 3) {
 					 boardButton[i][j].setIcon(wallWood);
-				 } else	if (Main.board.getTile()[i][j].getType()== 4) {
+				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 4) {
 					 boardButton[i][j].setIcon(jewelBlue);
-				 } else	if (Main.board.getTile()[i][j].getType()== 5) {
+				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 5) {
 					 boardButton[i][j].setIcon(jewelRed);
-				 } else	if (Main.board.getTile()[i][j].getType()== 6) {
+				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 6) {
 					 boardButton[i][j].setIcon(jewelGreen);
-				 } else	if (Main.board.getTile()[i][j].getType()== 7) {
+				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 7) {
 					 boardButton[i][j].setIcon(jewelPurple);
-				 } else	if (Main.board.getTile()[i][j].getType()== 8) { // tortue
-					 Player p = Main.board.getTile()[i][j].getPlayer();
+				 } else	if (Main.currentGame.board.getTile()[i][j].getType()== 8) { // tortue
+					 Player p = Main.currentGame.board.getTile()[i][j].getPlayer();
 					 if (p.getColor() == 0) {
 						 if (p.getDirection() == 0) {
 							 boardButton[i][j].setIcon(blueN);
@@ -526,7 +526,7 @@ public class GameInterface extends JFrame {
 		}
 	}
 	public static void updateText() {
-		labelPlayer.setText("Tour de " + Main.currentPlayer.getName() + ". Prochain joueur: " + Main.turns.getFirst().getName());
+		labelPlayer.setText("Tour de " + Main.currentGame.currentPlayer.getName() + ". Prochain joueur: " + Main.turns.getFirst().getName());
 		
 		
 		String messageScore = "";
@@ -538,9 +538,9 @@ public class GameInterface extends JFrame {
 			labelIce.setText("?");
 			labelWood.setText("?");
 		} else {
-			labelStone.setText("" + Main.currentPlayer.getWallStone());
-			labelIce.setText("" + Main.currentPlayer.getWallIce());
-			labelWood.setText("" + Main.currentPlayer.getWallWood());
+			labelStone.setText("" + Main.currentGame.currentPlayer.getWallStone());
+			labelIce.setText("" + Main.currentGame.currentPlayer.getWallIce());
+			labelWood.setText("" + Main.currentGame.currentPlayer.getWallWood());
 		}
 	}
 	
@@ -548,7 +548,7 @@ public class GameInterface extends JFrame {
 		currentCommand = 8;
 		updateHand();
 		updateText();
-		JOptionPane.showMessageDialog(null, "C'est le tour de " + Main.currentPlayer.getName() , "Tour " + Main.turnCounter, JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "C'est le tour de " + Main.currentGame.currentPlayer.getName() , "Tour " + Main.currentGame.turnCounter, JOptionPane.INFORMATION_MESSAGE);
 		currentCommand = 0;
 		hasAdded = false;
 		updateButtons();

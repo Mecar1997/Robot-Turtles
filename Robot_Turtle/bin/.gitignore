@@ -1,6 +1,3 @@
-/images/
-/Main/
-/Interface/
 /Background_board.png
 /Background_menu.jpeg
 /CardBlue.png
@@ -8,6 +5,8 @@
 /CardLaser.png
 /CardPurple.png
 /CardYellow.png
+/Interface/
+/Main/
 /blueE.png
 /blueN.png
 /blueS.png
@@ -28,10 +27,10 @@
 /redN.png
 /redS.png
 /redW.png
-/wall_ice.png
-/wall_stone.png
-/wall_wood.png
 /turtle1.png
 /turtle2.png
 /turtle3.png
 /turtle4.png
+/wall_ice.png
+/wall_stone.png
+/wall_wood.png

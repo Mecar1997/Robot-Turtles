@@ -21,7 +21,7 @@ public class Tile {
 	
 	
 	public void setPlayer(int a) {
-		associatedPlayer = Main.playersList[a];
+		associatedPlayer = Main.currentGame.players.get(a);
 	}
 	
 	public void removePlayer() {
