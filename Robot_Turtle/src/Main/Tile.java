@@ -9,12 +9,15 @@ public class Tile {
 				// 1 = mur de pierre, 2 = mur de glace, 3 = caisse
 				// 4 = joyau bleu, 5 = joyau rouge, 6 = joyau vert, 7 = joyau rose
 				// 8 = Tortue
-	Player associatedPlayer;
-	ImageIcon icon;
 	
-	public Tile() {
-		
+	Player associatedPlayer; // pour les tuiles tortues, le joueur qui correspond à cette tortue
+	ImageIcon icon; // icône de la tuile
+	
+	public Tile() {//constructeur
 	}
+	
+	
+	//getters and setters
 	
 	public int getType() {
 		return type;
@@ -34,45 +37,6 @@ public class Tile {
 		associatedPlayer = null;
 	}
 	
-	public boolean isObstacle() {
-		if (type == 1 || type == 2) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public boolean isJewel() {
-		if ((type > 3) && (type < 8)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	
-	public String toString() { // Retourne le nom de la tuile en fonction de son type
-		if (this.type == 0) {
-			return ("Tuile Vide");
-		} else if (this.type == 1) {
-			return ("Mur de pierre");
-		} else if (this.type == 2) {
-			return ("Mur de glace");
-		} else if (this.type == 3) {
-			return ("Caisse");
-		} else if (this.type == 4) {
-			return ("Joyau Bleu");
-		} else if (this.type == 5) {
-			return ("Joyau Rouge");
-		} else if (this.type == 6) {
-			return ("Joyau Vert");
-		} else if (this.type == 7){
-			return ("Joyau Rose");
-		} else {
-			return ("Tortue");
-		}
-	}
-
 	public Player getPlayer() {
 		return associatedPlayer;
 	}
@@ -145,4 +109,49 @@ public class Tile {
 			 }
 		}
 	}
+	
+	
+	
+	//méthodes
+	
+	public boolean isObstacle() { //si c'est un mur
+		if (type == 1 || type == 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean isJewel() {// si c'est un joyau
+		if ((type > 3) && (type < 8)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+	public String toString() { // Retourne le nom de la tuile en fonction de son type
+		if (this.type == 0) {
+			return ("Tuile Vide");
+		} else if (this.type == 1) {
+			return ("Mur de pierre");
+		} else if (this.type == 2) {
+			return ("Mur de glace");
+		} else if (this.type == 3) {
+			return ("Caisse");
+		} else if (this.type == 4) {
+			return ("Joyau Bleu");
+		} else if (this.type == 5) {
+			return ("Joyau Rouge");
+		} else if (this.type == 6) {
+			return ("Joyau Vert");
+		} else if (this.type == 7){
+			return ("Joyau Rose");
+		} else {
+			return ("Tortue");
+		}
+	}
+
+
 }

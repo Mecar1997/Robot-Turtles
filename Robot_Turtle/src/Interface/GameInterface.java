@@ -1,10 +1,7 @@
 package Interface;
 
 // Librairies Graphiques
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -19,17 +16,13 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 // ---------------------------
-import javax.swing.UIManager;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import Main.Main;
 import Main.Player;
@@ -40,15 +33,15 @@ public class GameInterface extends JFrame {
 	
     
  // initialisation boutons
-    final static JButton wallButton = new JButton("Placer un mur");
-    final static JButton executeButton = new JButton("Executer votre programme");
-    final static JButton completeButton = new JButton("Compléter votre programme");
-    final static JButton discardButton = new JButton("Défausser une carte");
-    final static JButton passButton = new JButton("Passer votre tour");
-    final static JButton cancelButton = new JButton("Annuler");
+    final JButton wallButton = new JButton("Placer un mur");
+    final JButton executeButton = new JButton("Executer votre programme");
+    final JButton completeButton = new JButton("Compléter votre programme");
+    final JButton discardButton = new JButton("Défausser une carte");
+    final JButton passButton = new JButton("Passer votre tour");
+    final JButton cancelButton = new JButton("Annuler");
     
-	private static JButton[] cardButton = new JButton[5];
-	private static JButton[][] boardButton = new JButton[8][8];
+	private JButton[] cardButton = new JButton[5];
+	private JButton[][] boardButton = new JButton[8][8];
 	
 	//initialisation Images
 	ImageIcon backgroundBoard = new ImageIcon(new ImageIcon("image/Background_board.png").getImage().getScaledInstance(200,200, Image.SCALE_DEFAULT));
@@ -58,25 +51,25 @@ public class GameInterface extends JFrame {
     final static ImageIcon wallWood = new ImageIcon(new ImageIcon("images/wall_wood.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
     
     // Initialisation texte
-    static JLabel labelAction = new JLabel("Choisissez l'action que voulez faire");
+    JLabel labelAction = new JLabel("Choisissez l'action que voulez faire");
     
-	private static JLabel labelStone = new JLabel("1");
-	private static JLabel labelIce = new JLabel("1");
-	private static JLabel labelWood = new JLabel("1");
+	JLabel labelStone = new JLabel("1");
+	JLabel labelIce = new JLabel("1");
+	JLabel labelWood = new JLabel("1");
 	
-	private static JLabel labelPlayer = new JLabel("1");
+	JLabel labelPlayer = new JLabel("1");
 	
-	private static JLabel labelScoreTitle = new JLabel("SCORE");
-	private static JLabel labelScore = new JLabel("1");
+	JLabel labelScoreTitle = new JLabel("SCORE");
+	JLabel labelScore = new JLabel("1");
 	
     // Initialisation panel
-	static JLayeredPane panelMain = new JLayeredPane();
-	static JPanel panelHand = new JPanel(new GridLayout(1, 5));
-	static JPanel panelWall = new JPanel();
-	static JPanel panelPlayer = new JPanel();
-	static JPanel panelAction = new JPanel();
-	static JPanel panelScore = new JPanel();
-    static JPanel panelBoard = new JPanel(new GridLayout(8,8)) {
+	JLayeredPane panelMain = new JLayeredPane();
+	JPanel panelHand = new JPanel(new GridLayout(1, 5));
+	JPanel panelWall = new JPanel();
+	JPanel panelPlayer = new JPanel();
+	JPanel panelAction = new JPanel();
+	JPanel panelScore = new JPanel();
+    JPanel panelBoard = new JPanel(new GridLayout(8,8)) {
 		@Override
 		public void paintComponent(Graphics g)
 	    {
@@ -93,7 +86,7 @@ public class GameInterface extends JFrame {
     
     // Initialisation variables
     static int currentCommand = 0; // 0 = rien, 1 = en train d'exécuter un programme, 2 = en train de compléter un programme, 3 = construction mur de pierre, 4 = construction mur de glace, 5 = construction mur en bois, 6 = Va passer son tour, 7 = En train de défausser, 8 = A passé son tour, 9 = va bugger un autre joueur
-    static boolean hasAdded = false; //variable booleene pour empecher d'annuler la complétion du programme si le joueur a ajouté au moins une cart
+    static boolean hasAdded = false; //variable boolean pour empêcher d'annuler la complétion du programme si le joueur a ajouté au moins une carte
     
     public void initialisation() {
     	gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//permet la fermetture
@@ -124,17 +117,17 @@ public class GameInterface extends JFrame {
 		panelMain.add(panelAction);
 
 		//TODO: Score Panel
-		panelScore.setLayout(new BoxLayout(panelScore, BoxLayout.PAGE_AXIS));
-		panelScore.setBounds(475, 300, 250, 350);
-		panelScore.setBackground(Color.white);
-		panelScore.setBorder(BorderFactory.createLineBorder(Color.black));
-		panelMain.add(panelScore);
-		labelScoreTitle.setFont(new Font("Arial", Font.BOLD, 17));
-		labelScoreTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		panelScore.add(labelScoreTitle);
-		labelScore.setFont(new Font("Arial", Font.ITALIC, 13));
-		labelScore.setHorizontalAlignment(SwingConstants.CENTER);
-		panelScore.add(labelScore);
+		// panelScore.setLayout(new BoxLayout(panelScore, BoxLayout.PAGE_AXIS));
+		// panelScore.setBounds(475, 300, 250, 350);
+		// panelScore.setBackground(Color.white);
+		// panelScore.setBorder(BorderFactory.createLineBorder(Color.black));
+		// panelMain.add(panelScore);
+		// labelScoreTitle.setFont(new Font("Arial", Font.BOLD, 17));
+		// labelScoreTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		// panelScore.add(labelScoreTitle);
+		// labelScore.setFont(new Font("Arial", Font.ITALIC, 13));
+		// labelScore.setHorizontalAlignment(SwingConstants.CENTER);
+		// panelScore.add(labelScore);
 		
 		
 		
@@ -272,7 +265,6 @@ public class GameInterface extends JFrame {
 	        	currentCommand = 6;
 	            updateButtons();
 	        }
-	        //TODO: Main: Ralentir les actions pour quelles soient toutes visibles. (import Time ?)
 	    });
 	    
 	    completeButton.addActionListener(new ActionListener() {
@@ -337,9 +329,7 @@ public class GameInterface extends JFrame {
 				});
 			}	
 		}
-
-	       
-        Open();
+		Open();
 	}
 	
 	// Open & Close
@@ -357,7 +347,7 @@ public class GameInterface extends JFrame {
 	}
 	
 	
-	public static void updateHand() {
+	public void updateHand() {
 		// Affiche la main du joueur
 		 if(Main.currentGame.currentPlayer.hand.size()<5) { //Si la main est plus petite que 5
 			 for(int i=Main.currentGame.currentPlayer.hand.size();i<5;i++ ) {
@@ -387,7 +377,7 @@ public class GameInterface extends JFrame {
 		 }
 	}
 
-	public static void updateButtons() {
+	public void updateButtons() {
 		if (currentCommand == 0) {
 			passButton.setVisible(false);
 			cancelButton.setVisible(false);
@@ -431,15 +421,15 @@ public class GameInterface extends JFrame {
 			discardButton.setVisible(false);
 		}
 	}
-	public static void updateText() {
+	public void updateText() {
 		labelPlayer.setText("Tour de " + Main.currentGame.currentPlayer.getName() +" (" + Main.currentGame.currentPlayer.getColorString() + "). Prochain joueur: " + Main.currentGame.turns.getFirst().getName());
 		
 		
 		String messageScore = "";
 		//TODO: Ordonner la liste des joueurs en fonction de leur score. Algorithme de tri.
 		//TODO: Ne s'affiche pas correctement
-		for (int i = 0; i < Main.currentGame.players.size(); i++) {
-			messageScore += Main.currentGame.players.get(i).getName() + ":\t\t" + Main.currentGame.players.get(i).getPoints() + "\r\n";
+		for (int i = 0; i < Main.players.size(); i++) {
+			messageScore += Main.players.get(i).getName() + ":\t\t" + Main.players.get(i).getPoints() + "\r\n";
 		}
 		labelScore.setText(messageScore);
 		

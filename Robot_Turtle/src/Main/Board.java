@@ -19,13 +19,13 @@ public class Board {
         		getTile()[L][C].setType(0); // on vide toutes les cases
             }
 		}
-        if (Main.currentGame.numberPlayers == 4) {
+        if (Main.numberPlayers == 4) {
 			int i = rand.nextInt(3);
 			getTile()[7][1].setType(4+i);
 			i = rand.nextInt(3);
 			getTile()[7][6].setType(4+i);
         } else {
-        	if (Main.currentGame.numberPlayers == 3) {
+        	if (Main.numberPlayers == 3) {
     			int i = rand.nextInt(3);
     			getTile()[7][0].setType(4+i);
     			i = rand.nextInt(3);
@@ -66,5 +66,22 @@ public class Board {
 	public Tile[][] getTile() {
 		return tile;
 	}
-
+	
+	public int numberBlocks(int x, int y) {
+		int b = 0;
+		for (int i = -1; i < 2;i++) {
+			for (int j = -1; j < 2;j++) {
+				if (x+i >= 0 && x+i <= 7 && y+j >= 0 && y+j <= 7) {
+					if (this.tile[x+i][y+j].getType() == 0) {
+						System.out.println("("+ x+i + ";" + y+j + ") Cette tuile est libre");
+						b++;
+					}
+				}
+			}
+		}
+		System.out.println(b);
+		return b;
+	}
+	
+	
 }

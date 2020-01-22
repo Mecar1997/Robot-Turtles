@@ -94,6 +94,8 @@ public class Menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                	Main.newGame(2);
+
+        		Menu.Close();
             }
         });
 
@@ -101,6 +103,8 @@ public class Menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                	Main.newGame(3);
+
+        		Menu.Close();
             }
         });
 
@@ -110,6 +114,8 @@ public class Menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                	Main.newGame(4);
+
+        		Menu.Close();
             }
         });
         Open();

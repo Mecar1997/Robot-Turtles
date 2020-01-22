@@ -1,12 +1,9 @@
 package Main;
 
-import java.util.Random;
-import java.util.Scanner;
-import java.util.ArrayDeque;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 
 
@@ -14,19 +11,21 @@ import Interface.Menu;
 import Interface.GameInterface;
 
 public class Main {
-	public static ArrayList<Player> playersList = new ArrayList<>(); //liste contenant tous les joueurs possibles dans le jeu.
-	public static GameInterface HUD;
-	public static Menu startMenu;
+	public static ArrayList<Player> possiblePlayers = new ArrayList<>(); //liste contenant tous les joueurs possibles dans le jeu.
+	public static ArrayList<Player> players = new ArrayList<Player>(); //file contenant les joueurs du jeu
+	public static GameInterface HUD; //interface du jeu
+	public static Menu startMenu; // menu de début
 	public static int session = 0; //nombre de sessions réalisées
-	public static Game currentGame;
+	public static Game currentGame; // jeu en cours
+	public static int numberPlayers; //nombre de joueurs
 	
 	public static void main(String[] args) {
-		playersList.add(new Player(0));
-		playersList.add(new Player(1));
-		playersList.add(new Player(2));
-		playersList.add(new Player(3));
+		possiblePlayers.add(new Player(0));
+		possiblePlayers.add(new Player(1));
+		possiblePlayers.add(new Player(2));
+		possiblePlayers.add(new Player(3));
+		
 		startMenu = new Menu();
-
 		startMenu.initialisation(); //Initialisation Menu
 	}
 	
@@ -35,10 +34,13 @@ public class Main {
 		new Game(p);
 	}
 	
-	public static void endSession() {
-		//TODO: affiche message gagnant + close();
+	public static void endSession() { // Lorsque les joueurs ont joué 3 parties
+		JOptionPane.showMessageDialog(null, "Joueur gagnant: " + currentGame.winner.getName(), "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
+		HUD.Close();
+		//TODO: Afficher le joueur gagnant en fonction du score
 	}
 
+	
 }
 
 

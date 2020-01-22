@@ -6,8 +6,11 @@ import javax.swing.ImageIcon;
 
 public class Card {
 	int type = 0; //0 = bleu, 1 = jaune, 2 = violette, 3 = laser, 4 = Bug
-	ImageIcon icon = new ImageIcon(new ImageIcon("images/CardBlue.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
-	String tooltip;
+	ImageIcon icon = new ImageIcon(new ImageIcon("images/CardBlue.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT)); //icone qui s'affichera sur l'interface graphique
+	String tooltip; // tooltip qui apparait quand on met le curseur de la souris sur la carte
+	
+	
+	//Getters and Setters
 	
 	public int getType() {
 		return type;
@@ -19,7 +22,7 @@ public class Card {
 		setTooltip();
 	}
 	
-	public String toString() {
+	public String toString() { //retourne le nom de la carte en fonction de son type
 		if (this.type == 0) {
 			return ("Carte Bleue");
 		} else if (this.type == 1) {

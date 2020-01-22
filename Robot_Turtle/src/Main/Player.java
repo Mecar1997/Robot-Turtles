@@ -23,7 +23,8 @@ public class Player {
 	public Player(int c) {
         this.color = c;
 	}
-	//TODO: out of bounds
+	
+	
 	// getters & setters
 	public String getName() {
 		if (this.color == 0) {
@@ -173,11 +174,42 @@ public class Player {
 			return;
 		}
 		
+		
+		if (Main.currentGame.getBoard().getTile()[newX][newY].getType() == 3) { //caisse en bois
+			int newX2 = 0;
+			int newY2 = 0;
+			if (direction == 0) {
+				newX2 = position[0]-2;
+				newY2 = position[1];
+			} else if (direction == 1) {
+				newX2 = position[0];
+				newY2 = position[1]-2;		
+			} else if (direction == 2) {
+				newX2 = position[0]+2;
+				newY2 = position[1];
+			} else if (direction == 3) {
+				newX2 = position[0];
+				newY2 = position[1]+2;
+			}
+			
+			if (newX2 >= 0 && newX2 <= 7 && newY2 >= 0 && newY2 <= 7 && Main.currentGame.getBoard().getTile()[newX2][newY2].getType() == 0) { // CHECK: Si la caisse ne va pas sortir du plateau, on la pousse
+				Main.currentGame.getBoard().getTile()[newX][newY].setType(0);
+				Main.currentGame.getBoard().getTile()[newX2][newY2].setType(3);
+				setPosition(newX,newY);
+				return;
+			} else {
+				System.out.println("il y'a une caise en bois que l'on peut pas pousser");
+				turnTwice();
+				return;
+			}
+		}
+		
 		if (Main.currentGame.getBoard().getTile()[newX][newY].isObstacle()) { // empêche d'avancer s'il y'a un obstacle
 			System.out.println("il y'a un obstacle devant cette tortue");
 			turnTwice();
 			return;
 		}
+
 		
 		if (Main.currentGame.getBoard().getTile()[newX][newY].getType() == 8) { //collision deux tortues
 			returnStart();
@@ -190,32 +222,37 @@ public class Player {
 			return;
 		}
 		setPosition(newX,newY);
-		
-		// TODO: Permettre à une tortue de pousser une caisse en bois ?
 	}	
 	
 	public void returnStart() {
 		Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(0);
 		this.setPosition(startPosition[0], startPosition[1]);
+		direction = 2;
 		Main.HUD.updateBoard();
 	}
 	
 	public void jewelFound() {
 		System.out.println(this.getName() + " a trouvé un joyau.");
-		if (Main.currentGame.players.size() > 2) { // plus de 2 joueurs dans la partie
-			if (Main.currentGame.players.get(0) == this) {
-				Main.currentGame.firstPlayer = Main.currentGame.players.get(1);
+		if (Main.currentGame.winner == null) {
+			Main.currentGame.winner = this;
+		}
+		points += Main.currentGame.remainingPlayers.size() - 1;
+		if (Main.currentGame.remainingPlayers.size() > 2) { // plus de 2 joueurs dans la partie
+			if (Main.currentGame.remainingPlayers.get(0) == this) {
+				Main.currentGame.firstPlayer = Main.currentGame.remainingPlayers.get(1);
 			}
-			Main.currentGame.players.remove(0);
-			Main.currentGame.turns.remove();
+			Main.currentGame.nextTurn();
+			Main.currentGame.remainingPlayers.remove(this);
+			Main.currentGame.turns.remove(this);
 			Main.currentGame.getBoard().getTile()[position[0]][position[1]].setType(0);
 			Main.currentGame.getBoard().getTile()[position[0]][position[1]].removePlayer();
+
+			System.out.println("Il reste " + Main.currentGame.remainingPlayers.size() + " joueurs");
 			
 		} else {
-			Main.currentGame.endGame();
+			Main.endSession();
 		}
-		//TODO: Ajout système de points
-		System.out.println("Il reste " + Main.currentGame.players.size() + " joueurs");
+		
 	}
 	
 	// Manipulation main + deck
@@ -251,7 +288,7 @@ public class Player {
 			}
 		} while (a != 0);
 	deckToQueue(temporaryDeck);
-	showDeck();
+	//showDeck();
 	}
 	
 	public void deckToQueue(Card[] temporaryDeck) {
@@ -281,13 +318,6 @@ public class Player {
         		System.out.print("L");
         	}
         }
-        //System.out.println("");
-        //System.out.print("DEBUG: Deck de " + this.getName() + ": ");
-        //for (int i = 0; i < 37; i++) {
-        //	System.out.print(temporaryDeck[i].toStringDebug());
-        //}
-		System.out.println("");
-		System.out.println("DEBUG: Le deck du joueur " + this.getName() + " contient " + b + " cartes Bleues, " + j + " cartes Jaunes, " + v + " cartes Violettes, " + l + " cartes Laser.");
 	}
 	
 	
@@ -303,7 +333,7 @@ public class Player {
 			}
 			hand.add(deck.pop());
 		}
-		showDeck();
+		//showDeck();
 	}
 	
 	
@@ -347,7 +377,7 @@ public class Player {
 		}
 		
 		if (Main.currentGame.getBoard().getTile()[newX][newY].getType() == 8) { //laser sur une autre tortue
-			if (Main.currentGame.numberPlayers == 2) {
+			if (Main.numberPlayers == 2) {
 				Main.currentGame.getBoard().getTile()[newX][newY].getPlayer().turnTwice();
 			} else {
 				Main.currentGame.getBoard().getTile()[newX][newY].getPlayer().returnStart();
@@ -357,7 +387,7 @@ public class Player {
 		}
 		
 		if (Main.currentGame.getBoard().getTile()[newX][newY].isJewel()) { // laser sur soi
-			if (Main.currentGame.numberPlayers == 2) {
+			if (Main.numberPlayers == 2) {
 				turnTwice();
 			} else {
 				returnStart();
@@ -378,9 +408,21 @@ public class Player {
 	}
 	
 	public boolean placeWall(int x, int y, int type) {
-		// TODO:  Empêcher un joueur de bloquer une tortue ou un joyau
+		for (int i = -1; i < 2;i++) {
+			for (int j = -1; j < 2;j++) {
+				if (x+i >= 0 && x+i <= 7 && y+j >= 0 && y+j <= 7) {
+					if (Main.currentGame.board.getTile()[x+i][y+j].getType() == 8 || Main.currentGame.board.getTile()[x+i][y+j].isJewel()) {
+						if (Main.currentGame.board.numberBlocks(x+i, y+j) < 2) {
+							System.out.println("La tuile est bloquée");
+							return false;
+						}
+					}
+				}
+			}
+		}
 		Main.currentGame.getBoard().getTile()[x][y].setType(type);
 		this.removeWall(type);
+		System.out.println("La tuile n'est pas bloquée");
 		return true;
 	}
 	
