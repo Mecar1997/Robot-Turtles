@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -122,6 +123,8 @@ public class GameInterface extends JFrame {
 		panelAction.setBounds(500, 86, 200, 96);
 		panelMain.add(panelAction);
 
+		//TODO: Score Panel
+		panelScore.setLayout(new BoxLayout(panelScore, BoxLayout.PAGE_AXIS));
 		panelScore.setBounds(475, 300, 250, 350);
 		panelScore.setBackground(Color.white);
 		panelScore.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -132,9 +135,10 @@ public class GameInterface extends JFrame {
 		labelScore.setFont(new Font("Arial", Font.ITALIC, 13));
 		labelScore.setHorizontalAlignment(SwingConstants.CENTER);
 		panelScore.add(labelScore);
+		
+		
+		
 		//Action Panel
-
-
 		
        	panelAction.add(labelAction);
        	panelAction.add(executeButton);

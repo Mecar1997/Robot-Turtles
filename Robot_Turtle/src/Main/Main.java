@@ -11,14 +11,12 @@ import java.util.List;
 
 
 import Interface.Menu;
-import Interface.PostGame;
 import Interface.GameInterface;
 
 public class Main {
 	public static ArrayList<Player> playersList = new ArrayList<>(); //liste contenant tous les joueurs possibles dans le jeu.
 	public static GameInterface HUD;
 	public static Menu startMenu;
-	public static PostGame postGameMenu;
 	public static int session = 0; //nombre de sessions réalisées
 	public static Game currentGame;
 	
@@ -38,9 +36,7 @@ public class Main {
 	}
 	
 	public static void endSession() {
-		postGameMenu = new PostGame();
-		postGameMenu.initialisation(); //Initialisation menu de fin
-		//TODO:
+		//TODO: affiche message gagnant + close();
 	}
 
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import Interface.GameInterface;
 import Interface.Menu;
-import Interface.PostGame;
 
 public class Game {
 	public int numberPlayers;
@@ -83,9 +82,7 @@ public class Game {
 	}
 
 	public static void endGame() {
-		Main.HUD.Close();
-		Main.postGameMenu = new PostGame();
-		Main.postGameMenu.initialisation(); //Initialisation menu de fin
+//TODO: popup message + restart game
 	}
 	
 	public Board getBoard() {
