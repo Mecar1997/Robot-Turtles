@@ -5,13 +5,10 @@ import java.util.Random;
 
 public class Board {
 	int size = 8;
-	private Tile[][] tile = new Tile[8][8];
+	private Tile[][] tile = new Tile[size][size];
 	
 	
 	public Board() {
-	}
-	
-	public void initialisation() {
         Random rand = new Random();
 		for (int L = 0; L < size; L++) {
             for (int C = 0; C < size; C++) {
@@ -42,27 +39,7 @@ public class Board {
             }
         }
 	}
-	
-	
-	
-	public int openTiles(int x, int y) {
-		int o = 0;
-		for (int i = x-1; i < x+2; i++) {
-			if ((i >= 0) & (i <= 7)) {
-	    		System.out.println("DEBUG: i == " + i);	
-				for (int j = y-1; j < y+2; j++) {
-		    		System.out.println("DEBUG: j == " + i);	
-					if ((j >= 0) & (j <= 7)) {
-						if (getTile()[i][j].getType()==0) {
-							o++;
-						}
-					}
-				}
-			}
-		}
-		return o;
-	}
-	
+		
 	public Tile[][] getTile() {
 		return tile;
 	}
@@ -73,13 +50,11 @@ public class Board {
 			for (int j = -1; j < 2;j++) {
 				if (x+i >= 0 && x+i <= 7 && y+j >= 0 && y+j <= 7) {
 					if (this.tile[x+i][y+j].getType() == 0) {
-						System.out.println("("+ x+i + ";" + y+j + ") Cette tuile est libre");
 						b++;
 					}
 				}
 			}
 		}
-		System.out.println(b);
 		return b;
 	}
 	

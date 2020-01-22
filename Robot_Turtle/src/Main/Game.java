@@ -26,7 +26,6 @@ public class Game {
 		remainingPlayers = new ArrayList<Player>();
 		turns = new ArrayDeque<>();
 		board = new Board();
-		board.initialisation(); //reset du plateau
 		for (int j = 0; j < p; j++) {
 		 	addPlayer(j);
 		}
