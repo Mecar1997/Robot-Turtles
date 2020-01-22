@@ -13,8 +13,8 @@ public class Board {
 	
 	public void initialisation() {
         Random rand = new Random();
-		for (int L = 0; L < this.size; L++) {
-            for (int C = 0; C < this.size; C++) {
+		for (int L = 0; L < size; L++) {
+            for (int C = 0; C < size; C++) {
         		getTile()[L][C] = new Tile();
         		getTile()[L][C].setType(0); // on vide toutes les cases
             }
@@ -37,7 +37,7 @@ public class Board {
     			getTile()[7][3].setType(4+i);
         	}
         	
-            for (int L = 0; L < this.size; L++) {
+            for (int L = 0; L < size; L++) {
             	getTile()[L][size-1].setType(1); //on ajoute des murs de pierre si le nombre de joueurs est inférieur à 4
             }
         }
