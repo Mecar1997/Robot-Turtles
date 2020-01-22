@@ -34,10 +34,9 @@ public class Main {
 		new Game(p);
 	}
 	
-	public static void endSession() { // Lorsque les joueurs ont joué 3 parties
+	public static void endSession() {
 		JOptionPane.showMessageDialog(null, "Joueur gagnant: " + currentGame.winner.getName(), "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
 		HUD.Close();
-		//TODO: Afficher le joueur gagnant en fonction du score
 	}
 
 	
