@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="Robot_Turtle/src"/>
+	<classpathentry kind="src" path="images"/>
 	<classpathentry kind="output" path="Robot_Turtle/bin"/>
 </classpath>

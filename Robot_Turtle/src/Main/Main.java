@@ -1,5 +1,6 @@
 package Main;
 
+<<<<<<< HEAD
 import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayDeque;
@@ -15,13 +16,39 @@ public class Main {
 	public static Board board = new Board();
 	public static Player currentPlayer = new Player(0); // Joueur qui passe son tour actuellement
 	public static Player lastPlayer; //Joueur qui vient de finir son tour
+=======
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import java.util.ArrayList;
+
+
+
+import Interface.Menu;
+import Interface.GameInterface;
+
+public class Main {
+	public static ArrayList<Player> possiblePlayers = new ArrayList<>(); //liste contenant tous les joueurs possibles dans le jeu.
+	public static ArrayList<Player> players = new ArrayList<Player>(); //file contenant les joueurs du jeu
+	public static GameInterface HUD; //interface du jeu
+	public static Menu startMenu; // menu de début
+	public static int session = 0; //nombre de sessions réalisées
+	public static Game currentGame; // jeu en cours
+	public static int numberPlayers; //nombre de joueurs
+>>>>>>> f527e4a76e11c47d9e16daec52065471b0eba5de
 	
 	public static void main(String[] args) {
-		Interface.StartMenu(); //Initialisation Menu
-		Interface.Open(); //ouverture interface graphique
+		possiblePlayers.add(new Player(0));
+		possiblePlayers.add(new Player(1));
+		possiblePlayers.add(new Player(2));
+		possiblePlayers.add(new Player(3));
+		
+		startMenu = new Menu();
+		startMenu.initialisation(); //Initialisation Menu
 	}
 	
 	public static void newGame(int p) { //nouvelle partie
+<<<<<<< HEAD
 		numberPlayers = p;
 		System.out.println("Il y a " + numberPlayers + " joueurs");
 		board.Initialisation(); //reset du plateau
@@ -41,8 +68,19 @@ public class Main {
 		turns.add(playersList[k]);
 		turns.peekLast().shuffleDeck();
 		turns.peekLast().drawCard();
+=======
+		session++;
+		new Game(p);
 	}
 	
+	public static void endSession() {
+		JOptionPane.showMessageDialog(null, "Joueur gagnant: " + currentGame.winner.getName(), "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
+		HUD.Close();
+>>>>>>> f527e4a76e11c47d9e16daec52065471b0eba5de
+	}
+
+	
+<<<<<<< HEAD
 	public static void shufflePlayers() {
 		 // TODO: Les joueurs sont mélangés au hasard
 	}
@@ -166,4 +204,9 @@ public class Main {
 	public static void endSession() {
 		//TODO:  Facultatif. Manche de 3.
 	}
+=======
+>>>>>>> f527e4a76e11c47d9e16daec52065471b0eba5de
 }
+
+
+
